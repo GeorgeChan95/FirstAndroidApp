@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <!--
+    android:orientation="vertical" 是用于设置布局方向的属性，通常用于LinearLayout控件。
+    这属性指定了子视图在父视图中的排列方向。
+
+    具体而言，当设置为 "vertical" 时，子视图将垂直排列，即从上到下的方向。
+    这意味着子视图会沿着垂直方向堆叠，一个在另一个下面。
+    -->
+    /*
+    *
+    /
+
+    <TextView
+        android:id="@+id/tv_px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="px 文本大小"
+        android:textSize="30px"
+        />
+    <TextView
+        android:id="@+id/tv_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="db 文本大小"
+        android:textSize="30dp"
+        />
+    <TextView
+        android:id="@+id/tv_sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sp 文本大小"
+        android:textSize="30sp"
+        />
+</LinearLayout>
