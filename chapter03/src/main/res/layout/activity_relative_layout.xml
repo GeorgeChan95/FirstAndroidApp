@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RelativeLayoutActivity"
+    tools:ignore="MissingConstraints">
+
+    <!-- 相对布局使用：RelativeLayout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <!-- 当前视图在上级视图的中心位置 layout_centerInParent -->
+        <TextView
+            android:id="@+id/tv_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#ffffff"
+            android:text="我在中间"
+            android:textColor="@color/black"
+            android:textSize="11sp" />
+
+        <!--当前视图在上级视图的水平方向居中 layout_centerHorizontal -->
+        <TextView
+            android:id="@+id/tv_center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#ffffff"
+            android:text="我在水平中间"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 当前视图与上级视图在垂直方向居中：layout_centerVertical -->
+        <TextView
+            android:id="@+id/tv_center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#ffffff"
+            android:text="我在垂直中间"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 当前视图与上级视图左侧对齐：layout_alignParentLeft -->
+        <TextView
+            android:id="@+id/tv_parent_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#ffffff"
+            android:text="我跟上级左边对齐"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 当前视图与上级视图右侧对齐：layout_alignParentRight -->
+        <TextView
+            android:id="@+id/tv_parent_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#ffffff"
+            android:text="我跟上级右边对齐"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 当前视图与上级视图底部对齐：layout_alignParentBottom -->
+        <TextView
+            android:id="@+id/tv_parent_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff"
+            android:text="我跟上级底部对齐"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 在指定元素的左边，并与顶部对齐 -->
+        <TextView
+            android:id="@+id/tv_left_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_center"
+            android:layout_alignTop="@id/tv_center"
+            android:background="#ffffff"
+            android:text="我在中间左边"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 在指定元素的右边，并与底部对齐 -->
+        <TextView
+            android:id="@+id/tv_right_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_center"
+            android:layout_alignBottom="@id/tv_center"
+            android:background="#ffffff"
+            android:text="我在中间右边"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 在指定元素的上边，并与元素左边对齐 -->
+        <TextView
+            android:id="@+id/tv_above_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_center"
+            android:layout_alignLeft="@id/tv_center"
+            android:background="#ffffff"
+            android:text="我在中间上面"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+        <!-- 在指定元素的下边，并与元素右边对齐 -->
+        <TextView
+            android:id="@+id/tv_below_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_center"
+            android:layout_alignRight="@id/tv_center"
+            android:background="#ffffff"
+            android:text="我在中间下面"
+            android:textColor="#000000"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
