@@ -11,7 +11,7 @@
         android:theme="@style/Theme.FirstAndroidApp">
 
         <activity
-            android:name=".TextColorActivity"
+            android:name=".ViewGravityActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,6 @@
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".TextColorActivity"-->
-<!--            android:exported="false" />-->
     </application>
 
 </manifest>
