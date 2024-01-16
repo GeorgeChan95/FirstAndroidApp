@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.george.chapter03.utils.Utils;
+
 public class ViewBorderActivity extends AppCompatActivity {
 
     @Override

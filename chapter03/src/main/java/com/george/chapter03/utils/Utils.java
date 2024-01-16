@@ -1,4 +1,4 @@
-package com.george.chapter03;
+package com.george.chapter03.utils;
 
 import android.content.Context;
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下面的按钮区分大小写"/>
+
+<!--    android:textAllCaps="false" 表示不把button文本全改为大写-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="中文Button不转换大小写"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="====== 以上按钮无click事件 ======"/>
+
+
+    <!-- 直接在xml文件中指定了button调用的方法：doClick，此方法不推荐 -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="直接指定点击方法"
+        android:onClick="doClick"
+        android:textColor="@color/purple_700"
+        android:textSize="17dp"
+        android:id="@+id/tv_button1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击按钮查看的结果"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:id="@+id/tv_button_result"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="====== 以下按钮使用ClickListener事件 ======"/>
+
+
+
+</LinearLayout>
