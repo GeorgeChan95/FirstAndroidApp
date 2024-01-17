@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">chapter04</string>
+    <string name="finish_btn">完成</string>
 </resources>
