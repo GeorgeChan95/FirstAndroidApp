@@ -5,19 +5,9 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_finish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="跳转finish页面"
-        android:textAllCaps="false"
-        android:textSize="17sp"/>
-
-
-    <Button
         android:id="@+id/btn_jump_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="跳转JumpFirst页面"
-        android:textAllCaps="false"
-        android:textSize="17sp"/>
+        android:text="跳到第一个页面" />
+
 </LinearLayout>

@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <activity
+            android:name=".JumpSecondActivity"
+            android:exported="false"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".JumpFirstActivity"
+            android:exported="false"
+            android:launchMode="standard"/>
+        <activity
             android:name=".FinishActivity"
             android:exported="false" />
         <activity
