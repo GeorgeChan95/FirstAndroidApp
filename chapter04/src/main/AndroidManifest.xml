@@ -10,23 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <activity
+            android:name=".ReceiveActivity"
+            android:exported="false" />
+        <activity
             android:name=".JumpSecondActivity"
             android:exported="false"
-            android:launchMode="standard"/>
+            android:launchMode="standard" />
         <activity
             android:name=".JumpFirstActivity"
             android:exported="false"
-            android:launchMode="standard"/>
+            android:launchMode="standard" />
         <activity
             android:name=".FinishActivity"
             android:exported="false" />
         <activity
-            android:name=".StartActivity"
+            android:name=".SendActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GEORGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
