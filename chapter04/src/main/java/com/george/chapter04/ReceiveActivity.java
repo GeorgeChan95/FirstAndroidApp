@@ -21,7 +21,7 @@ public class ReceiveActivity extends AppCompatActivity {
         String request_time = bundle.getString("request_time");
         // 从包裹中取出名为request_content的字符串
         String request_content = bundle.getString("request_content");
-        String desc = String.format("收到请求消息：\n请求时间为%s\n请求内容为%s", request_time, request_content);
+        String desc = String.format("收到请求消息：\n请求时间为: %s\n请求内容为: %s", request_time, request_content);
         tv_receive.setText(desc);
     }
 }

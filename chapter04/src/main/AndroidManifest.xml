@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <activity
+            android:name=".ResponseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReceiveActivity"
             android:exported="false" />
         <activity
@@ -24,7 +27,7 @@
             android:name=".FinishActivity"
             android:exported="false" />
         <activity
-            android:name=".SendActivity"
+            android:name=".RequestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
