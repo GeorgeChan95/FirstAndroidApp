@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">chapter04</string>
     <string name="finish_btn">完成</string>
+    <string name="meta_value">元数据123567</string>
+    <string name="first_short">first</string>
+    <string name="first_long">启停活动</string>
+    <string name="second_short">second</string>
+    <string name="second_long">来回跳转</string>
+    <string name="third_short">third</string>
+    <string name="third_long">登录返回</string>
 </resources>

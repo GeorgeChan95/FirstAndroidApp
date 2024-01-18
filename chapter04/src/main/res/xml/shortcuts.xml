@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    shortcutId：快捷方式的编号。
+    enabled：是否启用快捷方式。true表示启用，false表示禁用。
+    icon：快捷菜单左侧的图标。
+    shortcutShortLabel：快捷菜单的短标签。
+    shortcutLongLabel：快捷菜单的长标签。优先展示长标签的文本，长标签放不下时才展示短标签的文本。
+    -->
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="first"
+        android:shortcutLongLabel="@string/first_long"
+        android:shortcutShortLabel="@string/first_short">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.george.chapter04.JumpFirstActivity"
+            android:targetPackage="com.george.chapter04" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="second"
+        android:shortcutLongLabel="@string/second_long"
+        android:shortcutShortLabel="@string/second_short">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.george.chapter04.JumpSecondActivity"
+            android:targetPackage="com.george.chapter04" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="third"
+        android:shortcutLongLabel="@string/third_long"
+        android:shortcutShortLabel="@string/third_short">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.george.chapter04.FinishActivity"
+            android:targetPackage="com.george.chapter04" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

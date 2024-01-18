@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <activity
+            android:name=".MetaDataActivity"
+            android:exported="true" >
+            <meta-data android:name="weather" android:value="@string/meta_value"/>
+        </activity>
+        <activity
             android:name=".ResponseActivity"
             android:exported="false" />
         <activity
@@ -27,8 +32,11 @@
             android:name=".FinishActivity"
             android:exported="false" />
         <activity
-            android:name=".RequestActivity"
+            android:name=".MainActivity"
             android:exported="true">
+            <!-- 告诉App首页有个快捷方式菜单，其资源内容参见位于xml目录下的 shortcuts.xml -->
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
