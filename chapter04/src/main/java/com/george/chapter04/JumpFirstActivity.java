@@ -20,7 +20,7 @@ public class JumpFirstActivity extends AppCompatActivity implements View.OnClick
         // 创建一个意图对象，准备跳到指定的活动页面
         Intent intent = new Intent(this, JumpSecondActivity.class);
         // 栈中存在待跳转的活动实例时，则重新创建该活动的实例，并清除原实例上方的所有实例
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }

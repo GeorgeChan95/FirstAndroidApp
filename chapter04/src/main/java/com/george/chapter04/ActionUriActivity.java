@@ -14,6 +14,8 @@ public class ActionUriActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_uri);
         findViewById(R.id.btn_dial).setOnClickListener(this);
+        findViewById(R.id.btn_sms).setOnClickListener(this);
+        findViewById(R.id.btn_my).setOnClickListener(this);
     }
 
     @Override
@@ -35,11 +37,13 @@ public class ActionUriActivity extends AppCompatActivity implements View.OnClick
                 // 设置意图动作为发短信
                 intent.setAction(Intent.ACTION_SENDTO);
                 // 声明一个发送短信的Uri
-                Uri uri2 = Uri.parse("smsto:" + phoneNo);
-                intent.setData(uri2);
+                Uri uri23 = Uri.parse("smsto:+8618326088610");
+//                Uri uri2 = Uri.parse("mailto:" + "george_95@126.com");
+                intent.setData(uri23);
                 startActivity(intent);
                 break;
             case R.id.btn_my:
+                // 定义在 chapter03/src/main/AndroidManifest.xml
                 intent.setAction("android.intent.action.GEORGE");
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                 startActivity(intent);

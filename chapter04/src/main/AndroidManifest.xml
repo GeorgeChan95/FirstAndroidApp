@@ -21,18 +21,18 @@
             android:name=".ReceiveActivity"
             android:exported="false" />
         <activity
-            android:name=".JumpSecondActivity"
-            android:exported="false"
-            android:launchMode="standard" />
-        <activity
             android:name=".JumpFirstActivity"
             android:exported="false"
-            android:launchMode="standard" />
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".JumpSecondActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".FinishActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:exported="true">
             <!-- 告诉App首页有个快捷方式菜单，其资源内容参见位于xml目录下的 shortcuts.xml -->
             <meta-data android:name="android.app.shortcuts"
@@ -41,11 +41,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.GEORGE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
