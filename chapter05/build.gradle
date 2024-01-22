@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.george.chapter05"

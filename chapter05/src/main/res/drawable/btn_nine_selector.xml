@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 按钮按下时展示的图形 -->
+    <item android:drawable="@drawable/button_pressed" android:state_pressed="true"/>
+    <!-- 默认情况下(不点击时)展示的图形 -->
+    <item android:drawable="@drawable/button_normal"/>
+
+    <!--
+    state_pressed: 按钮Button
+    state_checked: 复选框CheckBox、单选按钮RadioButton
+    state_focused: 文本编辑框EditText
+    state_selected: 各控件通用
+    -->
+</selector>
