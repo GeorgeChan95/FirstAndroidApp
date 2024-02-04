@@ -20,8 +20,10 @@ public class CheckBoxActivity extends AppCompatActivity implements CompoundButto
         setContentView(R.layout.activity_check_box);
         // 从布局文件中获取名叫ck_system的复选框
         CheckBox ckSystem = findViewById(R.id.ck_system);
+        CheckBox ckCustom = findViewById(R.id.ck_custom);
         // 给ck_system设置勾选监听器，一旦用户点击复选框，就触发监听器的onCheckedChanged方法
         ckSystem.setOnCheckedChangeListener(this);
+        ckCustom.setOnCheckedChangeListener(this);
     }
 
     @Override
