@@ -10,23 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".CheckBoxActivity"-->
+<!--            android:name=".SwitchActivity"-->
 <!--            android:exported="false" />-->
-
+        <!-- <activity -->
+        <!-- android:name=".CheckBoxActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".DrawableStateActivity" -->
         <!-- android:exported="false" /> -->
-
         <!-- <activity -->
         <!-- android:name=".DrawableNineActivity" -->
         <!-- android:exported="false" /> -->
-
         <!-- <activity -->
         <!-- android:name=".DrawableShapeActivity" -->
         <!-- android:exported="false" /> -->
-
         <activity
-            android:name=".CheckBoxActivity"
+            android:name=".SwitchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
