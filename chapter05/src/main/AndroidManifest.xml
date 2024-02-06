@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
-<!--        <activity-->
-<!--            android:name=".EditBorderActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".EditHideActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".EditBorderActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".RadioHorizontalActivity" -->
         <!-- android:exported="false" /> -->
