@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
-        <activity
-            android:name=".EditHideActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".EditFocusActivity2"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".EditHideActivity"-->
+<!--            android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".EditBorderActivity" -->
         <!-- android:exported="false" /> -->
@@ -34,7 +37,7 @@
         <!-- android:name=".DrawableShapeActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".EditBorderActivity"
+            android:name=".EditFocusActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
