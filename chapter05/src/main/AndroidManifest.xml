@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".EditFocusActivity2"-->
+<!--            android:name=".AlertDialogActivity"-->
 <!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".EditHideActivity"-->
-<!--            android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".EditFocusActivity2" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".EditHideActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".EditBorderActivity" -->
         <!-- android:exported="false" /> -->
@@ -37,7 +40,7 @@
         <!-- android:name=".DrawableShapeActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".EditHideActivity"
+            android:name=".AlertDialogActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
