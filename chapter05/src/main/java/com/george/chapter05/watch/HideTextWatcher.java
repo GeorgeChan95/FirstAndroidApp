@@ -1,5 +1,6 @@
 package com.george.chapter05.watch;
 
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -12,8 +13,10 @@ public class HideTextWatcher implements TextWatcher {
     private EditText editText;
     // 声明一个最大长度变量
     private int mMaxLength;
+    private Activity activity;
 
-    public HideTextWatcher(EditText editText, int mMaxLength) {
+    public HideTextWatcher(Activity act, EditText editText, int mMaxLength) {
+        this.activity = act;
         this.editText = editText;
         this.mMaxLength = mMaxLength;
     }
@@ -40,7 +43,7 @@ public class HideTextWatcher implements TextWatcher {
         // 当输入的文本长度等于指定的长度时，关闭输入面板
         if (str.length() == mMaxLength) {
             // 隐藏输入法软键盘
-            ViewUtil.hideOneInputMethod(new EditHideActivity(), editText);
+            ViewUtil.hideOneInputMethod(activity, editText);
         }
 
     }
