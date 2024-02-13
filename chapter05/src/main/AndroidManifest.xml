@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".DatePickerActivity"-->
+<!--            android:name=".TimePickerActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".DatePickerActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".AlertDialogActivity" -->
         <!-- android:exported="false" /> -->
@@ -43,7 +46,7 @@
         <!-- android:name=".DrawableShapeActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".DatePickerActivity"
+            android:name=".TimePickerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
