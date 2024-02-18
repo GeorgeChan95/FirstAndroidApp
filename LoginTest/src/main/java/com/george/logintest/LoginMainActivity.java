@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
     private ActivityResultLauncher<Intent> register;
     private String password = "123456";
     private String verifyCode;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,11 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
                 }
             }
         });
+
+        // 获取SharedPreference
+        preferences = getSharedPreferences("config", MODE_PRIVATE);
+
+        reloadPasswordByPreference();
     }
 
     @Override
@@ -174,5 +181,43 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
         builder.setNegativeButton("我再看看", null);
         androidx.appcompat.app.AlertDialog dialog = builder.create();
         dialog.show();
+
+        // 记住密码
+        sharedPreferenceRemember();
+
+    }
+
+    /**
+     * 使用sharedReference实现记住密码
+     */
+    private void sharedPreferenceRemember() {
+        if (rbPassword.isChecked()) {
+            String phone = etPhone.getText().toString();
+            String password = etPassword.getText().toString();
+            boolean remember = ckRemember.isChecked();
+
+            // 切换到编辑模式
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putString("phone", phone);
+            edit.putString("password", password);
+            edit.putBoolean("remember", remember);
+
+            // 提交保存的数据
+            edit.commit();
+        }
+    }
+
+    /**
+     * 通过SharedPreference加载记住的密码
+     */
+    private void reloadPasswordByPreference() {
+        boolean remember = preferences.getBoolean("remember", false);
+        if (remember) {
+            String phone = preferences.getString("phone", "");
+            String password = preferences.getString("password", "");
+            etPhone.setText(phone);
+            etPassword.setText(password);
+            ckRemember.setChecked(true);
+        }
     }
 }
