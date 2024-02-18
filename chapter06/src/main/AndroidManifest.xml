@@ -10,10 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".ShareWriteActivity"-->
+<!--            android:name=".SQLiteHelperActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".DatabaseActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".ShareWriteActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
-            android:name=".ShareWriteActivity"
+            android:name=".SQLiteHelperActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
