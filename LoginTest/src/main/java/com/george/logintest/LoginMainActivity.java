@@ -22,12 +22,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.george.logintest.entity.LoginInfo;
+import com.george.logintest.service.LoginService;
+import com.george.logintest.util.DBHelperUtil;
 import com.george.logintest.util.VerifyUtils;
 import com.george.logintest.watch.HideTextWatcher;
 
 import java.util.Random;
 
-public class LoginMainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class LoginMainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, View.OnFocusChangeListener {
 
     private RadioButton rbPassword;
     private RadioButton rbVerifycode;
@@ -41,6 +44,8 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
     private String password = "123456";
     private String verifyCode;
     private SharedPreferences preferences;
+    private DBHelperUtil dbHelperUtil;
+    private LoginService loginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,9 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
         btnLogin = findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
 
+        // 给密码输入框添加焦点变更监听器
+        etPassword.setOnFocusChangeListener(this);
+
         // 页面跳转
         register = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             // 从其他页面跳转回当前页面的回调方法
@@ -89,7 +97,25 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
         // 获取SharedPreference
         preferences = getSharedPreferences("config", MODE_PRIVATE);
 
-        reloadPasswordByPreference();
+        // 使用SharedReference回显记住的密码
+//        reloadPasswordByPreference();
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dbHelperUtil = DBHelperUtil.getInstance(this);
+        loginService = new LoginService(dbHelperUtil.openReadLink(), dbHelperUtil.openWriteLink());
+        // 使用SQLite回显记住的密码
+        reloadPasswrodBySqlite();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dbHelperUtil.closeLink();
     }
 
     @Override
@@ -165,6 +191,27 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
     }
 
     /**
+     * 焦点变更监听
+     * @param v
+     * @param hasFocus
+     */
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.et_password && hasFocus) {
+            String phone = etPhone.getText().toString();
+            LoginInfo loginInfo = loginService.queryByPhone(phone);
+            if (loginInfo != null) {
+                etPhone.setText(loginInfo.getPhone());
+                etPassword.setText(loginInfo.getPassword());
+                ckRemember.setChecked(true);
+            } else {
+                etPassword.setText("");
+                ckRemember.setChecked(false);
+            }
+        }
+    }
+
+    /**
      * 登录成功
      */
     private void loginSuccess() {
@@ -182,9 +229,24 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
         androidx.appcompat.app.AlertDialog dialog = builder.create();
         dialog.show();
 
-        // 记住密码
-        sharedPreferenceRemember();
+        // 使用sharedPreference实现记住密码
+//        sharedPreferenceRemember();
+        // 使用SQLite实现记住密码
+        sqliteRemember();
+    }
 
+    /**
+     * 使用SQLite实现记住密码
+     */
+    private void sqliteRemember() {
+        if (rbPassword.isChecked()) {
+            String phone = etPhone.getText().toString();
+            String password = etPassword.getText().toString();
+            boolean remember = ckRemember.isChecked();
+
+            LoginInfo loginInfo = new LoginInfo(phone, password, remember ? 1 : 0);
+            loginService.saveLogin(loginInfo);
+        }
     }
 
     /**
@@ -217,6 +279,18 @@ public class LoginMainActivity extends AppCompatActivity implements RadioGroup.O
             String password = preferences.getString("password", "");
             etPhone.setText(phone);
             etPassword.setText(password);
+            ckRemember.setChecked(true);
+        }
+    }
+
+    /**
+     * 加载最后登录的用户和密码
+     */
+    private void reloadPasswrodBySqlite() {
+        LoginInfo loginInfo = loginService.queryLastLogin();
+        if (loginInfo != null) {
+            etPhone.setText(loginInfo.getPhone());
+            etPassword.setText(loginInfo.getPassword());
             ckRemember.setChecked(true);
         }
     }
