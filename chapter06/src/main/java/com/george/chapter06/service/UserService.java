@@ -98,6 +98,8 @@ public class UserService {
             userInfo.setMarried(cursor.getInt(5) > 0 ? true : false);
             userList.add(userInfo);
         }
+        // 查询结束关闭数据库游标
+        cursor.close();
         return userList;
     }
 }
