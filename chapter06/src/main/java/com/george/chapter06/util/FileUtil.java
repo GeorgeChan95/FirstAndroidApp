@@ -1,13 +1,20 @@
 package com.george.chapter06.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileUtil {
+    private static String TAG = "GeorgeTag";
     /**
      * 保存文本内容到本地
      * @param path 文件路径
@@ -59,5 +66,41 @@ public class FileUtil {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 保存位图到指定路径
+     * @param path 图片保存路径
+     * @param bitmap 位图数据
+     */
+    public static void saveImage(String path, Bitmap bitmap) {
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            boolean compress = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            if (compress) {
+                Log.d(TAG, "图片保存成功，路径：" + path);
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取图片
+     * @param path
+     * @return
+     */
+    public static Bitmap openImage(String path) {
+        Bitmap bitmap = null;
+        try (FileInputStream fis = new FileInputStream(path)) {
+            bitmap = BitmapFactory.decodeStream(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }

@@ -15,8 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".FileReadWriteActivity"-->
+<!--            android:name=".ImageReadWriteActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".FileReadWriteActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".FilePathActivity" -->
         <!-- android:exported="false" /> -->
@@ -30,7 +33,7 @@
         <!-- android:name=".ShareWriteActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".FileReadWriteActivity"
+            android:name=".ImageReadWriteActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
