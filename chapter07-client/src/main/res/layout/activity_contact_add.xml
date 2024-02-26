@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="姓名："
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/et_contact_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:hint="请输入联系人姓名"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:background="@drawable/editext_selector"
+            android:gravity="start|center"
+            android:inputType="text"
+            android:maxLength="10"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="手机号码："
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/et_contact_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:hint="请输入手机号码"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:background="@drawable/editext_selector"
+            android:gravity="start|center"
+            android:inputType="number"
+            android:maxLength="11"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="邮箱："
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:gravity="center"/>
+        <EditText
+            android:id="@+id/et_contact_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:hint="请输入邮箱号码"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:background="@drawable/editext_selector"
+            android:gravity="start|center"
+            android:inputType="text"
+            android:maxLength="25"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="保存联系人"
+        android:textColor="@color/black"
+        android:textSize="19sp"/>
+
+    <Button
+        android:id="@+id/btn_read_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查看联系人"
+        android:textColor="@color/black"
+        android:textSize="19sp"/>
+</LinearLayout>

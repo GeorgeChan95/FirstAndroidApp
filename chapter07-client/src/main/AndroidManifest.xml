@@ -21,13 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".PermissionLazyActivity"-->
+<!--            android:name=".ContactAddActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".PermissionLazyActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".ContentWriteActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".PermissionLazyActivity"
+            android:name=".ContactAddActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
