@@ -2,17 +2,22 @@ package com.george.shopping.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.george.shopping.entity.CartInfo;
 import com.george.shopping.entity.GoodsInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * shopping 数据库帮助对象
  */
 public class ShoppingDBHelper extends SQLiteOpenHelper {
+    private static final String TAG = "GeorgeTag";
 
     // 数据库帮助对象实例
     private static ShoppingDBHelper dbHelper;
@@ -136,5 +141,123 @@ public class ShoppingDBHelper extends SQLiteOpenHelper {
         } finally {
             wDB.endTransaction();
         }
+    }
+
+    /**
+     * 获取购物车商品总数量
+     * @return
+     */
+    public int countCartInfo() {
+        int count = 0;
+        String sql = "SELECT SUM(count) FROM " + CART_TABLE_NAME;
+        Cursor cursor = rDB.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+        }
+        // 关闭数据库游标
+        cursor.close();
+        return count;
+    }
+
+    /**
+     * 获取所有的商品信息
+     * @return
+     */
+    public List<GoodsInfo> getAllGoodsInfo() {
+        List<GoodsInfo> list = new ArrayList<>();
+        String sql = "SELECT * FROM " + GOODS_TABLE_NAME;
+        Cursor cursor = rDB.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            float price = cursor.getFloat(3);
+            String pic_path = cursor.getString(4);
+
+            GoodsInfo goodsInfo = new GoodsInfo();
+            goodsInfo.id = id;
+            goodsInfo.name = name;
+            goodsInfo.description = description;
+            goodsInfo.price = price;
+            goodsInfo.picPath = pic_path;
+
+            list.add(goodsInfo);
+        }
+        // 关闭数据库游标
+        cursor.close();
+        return list;
+    }
+
+    /**
+     * 向购物车表中添加记录
+     * @param goodsId 商品id
+     */
+    public void insertCartInfo(int goodsId) {
+        // 获取商品在购物车中的数量
+        CartInfo cartInfo = queryCartInfoByGoodsId(goodsId);
+        if (cartInfo == null) {
+            cartInfo = new CartInfo();
+            cartInfo.count = 0;
+            cartInfo.goodsId = goodsId;
+        }
+        // 获取商品信息
+        GoodsInfo goodsInfo = queryGoodsInfoById(goodsId);
+        if (goodsInfo == null) {
+            Log.d(TAG, "数据库异常，商品信息为空，表名：" + GOODS_TABLE_NAME + " _id: " + goodsId);
+            return;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("good_id", goodsId);
+        values.put("count", ++cartInfo.count);
+
+        long row = wDB.insert(CART_TABLE_NAME, null, values);
+        if (row > 0) {
+            Log.d(TAG, "购物车数据保存操作成功");
+        }
+    }
+
+    /**
+     * 根据商品ID获取购物车信息
+     * @param goodsId 商品ID
+     * @return
+     */
+    private CartInfo queryCartInfoByGoodsId(int goodsId) {
+        CartInfo cartInfo = null;
+        Cursor cursor = rDB.query(CART_TABLE_NAME, null, " good_id=?", new String[]{String.valueOf(goodsId)}, null, null, null, " 1");
+        while (cursor.moveToNext()) {
+            cartInfo = new CartInfo();
+            cartInfo.id = cursor.getInt(0);
+            cartInfo.goodsId = cursor.getInt(1);
+            cartInfo.count = cursor.getInt(2);
+        }
+        cursor.close();
+        return cartInfo;
+    }
+
+    /**
+     * 根据商品id获取商品信息
+     * @param goodsId 商品id
+     * @return
+     */
+    private GoodsInfo queryGoodsInfoById(int goodsId) {
+        GoodsInfo goodsInfo = null;
+        Cursor cursor = rDB.query(GOODS_TABLE_NAME, null, " _id=?", new String[]{String.valueOf(goodsId)}, null, null, null, " limit 1");
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            float price = cursor.getFloat(3);
+            String pic_path = cursor.getString(4);
+
+            goodsInfo = new GoodsInfo();
+            goodsInfo.id = id;
+            goodsInfo.name = name;
+            goodsInfo.description = description;
+            goodsInfo.price = price;
+            goodsInfo.picPath = pic_path;
+        }
+        cursor.close();
+        return goodsInfo;
     }
 }

@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <activity
+            android:name=".ShoppingDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShoppingCartActivity"
+            android:exported="false" />
+        <activity
             android:name=".ShoppingChannelActivity"
             android:exported="true">
             <intent-filter>
