@@ -242,7 +242,7 @@ public class ShoppingDBHelper extends SQLiteOpenHelper {
      */
     private GoodsInfo queryGoodsInfoById(int goodsId) {
         GoodsInfo goodsInfo = null;
-        Cursor cursor = rDB.query(GOODS_TABLE_NAME, null, " _id=?", new String[]{String.valueOf(goodsId)}, null, null, null, " limit 1");
+        Cursor cursor = rDB.query(GOODS_TABLE_NAME, null, " _id=?", new String[]{String.valueOf(goodsId)}, null, null, null, " 1");
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             String name = cursor.getString(1);
