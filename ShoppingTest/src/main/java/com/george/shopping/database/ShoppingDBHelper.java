@@ -240,7 +240,7 @@ public class ShoppingDBHelper extends SQLiteOpenHelper {
      * @param goodsId 商品id
      * @return
      */
-    private GoodsInfo queryGoodsInfoById(int goodsId) {
+    public GoodsInfo queryGoodsInfoById(int goodsId) {
         GoodsInfo goodsInfo = null;
         Cursor cursor = rDB.query(GOODS_TABLE_NAME, null, " _id=?", new String[]{String.valueOf(goodsId)}, null, null, null, " 1");
         while (cursor.moveToNext()) {
@@ -259,5 +259,48 @@ public class ShoppingDBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return goodsInfo;
+    }
+
+    /**
+     * 获取所有购物车数据集合
+     * @return
+     */
+    public List<CartInfo> getAllCartInfo() {
+        List<CartInfo> cartInfos = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + CART_TABLE_NAME;
+        Cursor cursor = rDB.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            CartInfo cartInfo = new CartInfo();
+            cartInfo.id = cursor.getInt(0);
+            cartInfo.goodsId = cursor.getInt(1);
+            cartInfo.count = cursor.getInt(2);
+            cartInfos.add(cartInfo);
+        }
+        // 关闭数据库游标
+        cursor.close();
+        return cartInfos;
+    }
+
+    public boolean deleteFromCartInfo(int cartInfoId) {
+        int row = wDB.delete(CART_TABLE_NAME, "_id=?", new String[]{String.valueOf(cartInfoId)});
+        if (row > 0) {
+            Log.d(TAG, "从数据库删除购物车商品信息操作成功, _id="+cartInfoId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 清空购物车表
+     * @return
+     */
+    public boolean deleteAllCartInfo() {
+        int row = wDB.delete(CART_TABLE_NAME, null, null);
+        if (row > 0) {
+            Log.d(TAG, "清空购物车表操作成功");
+            return true;
+        }
+        return false;
     }
 }

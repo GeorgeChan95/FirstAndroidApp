@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import com.george.shopping.utils.ToastUtil;
 import java.util.List;
 
 public class ShoppingChannelActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private final String TAG = "GeorgeTag";
     // 头部标题
     private TextView tv_title;
     // 表格布局容器
@@ -33,6 +34,7 @@ public class ShoppingChannelActivity extends AppCompatActivity implements View.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "ShoppingChannelActivity 调用onCreate方法");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_channel);
         tv_title = findViewById(R.id.tv_title);
@@ -55,6 +57,25 @@ public class ShoppingChannelActivity extends AppCompatActivity implements View.O
 
         // 加载所有的商品数据到页面中
         showGoodsInfo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "ShoppingChannelActivity 调用onDestroy方法");
+        super.onDestroy();
+        dbHelper.closeDatabaseLink();
+    }
+
+    /**
+     * 这个方法在活动准备好和用户进行交互的时候调用
+     * 其它页面跳转回该页面时，刷新购物车数量
+     */
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "ShoppingChannelActivity 调用onResume方法");
+        super.onResume();
+        // 查询购物车商品总数，并展示
+        showCartInfoTotal();
     }
 
     /**
