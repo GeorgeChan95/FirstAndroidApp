@@ -24,8 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".MonitorSmsActivity"-->
+<!--            android:name=".SendMmsActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".MonitorSmsActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".ContactAddActivity" -->
         <!-- android:exported="false" /> -->
@@ -38,7 +41,7 @@
         <!-- android:name=".ContentWriteActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".MonitorSmsActivity"
+            android:name=".SendMmsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
