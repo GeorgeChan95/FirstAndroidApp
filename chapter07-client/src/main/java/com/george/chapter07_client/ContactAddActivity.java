@@ -1,19 +1,18 @@
 package com.george.chapter07_client;
 
-import static android.provider.ContactsContract.Directory.ACCOUNT_NAME;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,7 +20,6 @@ import com.george.chapter07_client.entity.Contact;
 import com.george.chapter07_client.util.PermissionUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ContactAddActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "GeorgeTag";
@@ -78,8 +76,53 @@ public class ContactAddActivity extends AppCompatActivity implements View.OnClic
                 // 好处是，要么全部成功，要么全部失败，保证了事务的一致性
                 addFullContacts(getContentResolver(), contact);
                 break;
+            case R.id.btn_read_contact:
+                readPhoneContacts(getContentResolver());
+                break;
         }
 
+    }
+
+    /**
+     * 读取联系人信息
+     * @param contentResolver
+     */
+    private void readPhoneContacts(ContentResolver contentResolver) {
+        Contact contact = new Contact();
+        // 1.读取联系人row_id
+        Cursor cursor = contentResolver.query(ContactsContract.RawContacts.CONTENT_URI, new String[]{ContactsContract.RawContacts._ID}, null, null, null);
+        while (cursor.moveToNext()) {
+            int rawId = cursor.getInt(0);
+            Uri uri = Uri.parse(ContactsContract.AUTHORITY_URI + "/contacts/" + rawId + "/data");
+            Cursor dataCursor = contentResolver.query(uri, new String[]{ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.Contacts.Data.DATA1, ContactsContract.Contacts.Data.DATA2},
+                    null, null, null);
+            while (dataCursor.moveToNext()) {
+                // 数据类型字段的索引
+                int mimetypeIndex = dataCursor.getColumnIndex(ContactsContract.Contacts.Data.MIMETYPE);
+                // 姓名/手机号/邮箱 值字段的索引
+                int data1Index = dataCursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1);
+                // 数据类型
+                String mimetype = dataCursor.getString(mimetypeIndex);
+                // 值
+                String data1 = dataCursor.getString(data1Index);
+                switch (mimetype) {
+                    case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
+                        contact.name = data1;
+                        break;
+                    case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
+                        contact.phone = data1;
+                        break;
+                    case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
+                        contact.email = data1;
+                        break;
+                }
+            }
+            if (contact.name != null) {
+                Log.d(TAG, "查询到联系人：" + contact);
+            }
+            dataCursor.close();
+        }
+        cursor.close();
     }
 
     /**
