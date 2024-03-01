@@ -49,7 +49,7 @@
         <!-- android:name=".ContentWriteActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".PermissionHungryActivity"
+            android:name=".ContactAddActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
