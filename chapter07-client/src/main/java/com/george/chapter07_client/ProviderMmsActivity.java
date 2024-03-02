@@ -180,7 +180,7 @@ public class ProviderMmsActivity extends AppCompatActivity {
                 MediaStore.Images.Media.SIZE
         };
 
-        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, "_size < 3072000", null, "_size DESC");
+        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, "_size < 1048576", null, "_size DESC");
         // 只取6张图片
         int count = 0;
         if (cursor != null) {
