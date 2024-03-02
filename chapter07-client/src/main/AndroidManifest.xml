@@ -13,11 +13,12 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" /> <!-- 通话记录。包括读通话记录、写通话记录 -->
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
-
-    <!--文件读权限-->
+    <!-- 文件读权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 安卓11及以上，在安装APK时需要在xml配置存储管理权限，并在代码中判断 Environment.isExternalStorageManager() 是否有权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 安卓11及以上，在安装APK时需要在xml配置存储管理权限，并在代码中判断 Environment.isExternalStorageManager() 是否有权限 -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 安装应用请求，Android8.0需要配置xml -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
@@ -30,7 +31,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
-
         <!-- 兼容Android7.0，把访问文件的Uri方式改为FileProvider -->
         <!-- android:grantUriPermissions 必须设置为 true -->
         <provider
@@ -38,13 +38,16 @@
             android:authorities="@string/file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
-        
 <!--        <activity-->
-<!--            android:name=".ProviderMmsActivity"-->
+<!--            android:name=".ProviderApkActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".ProviderMmsActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".SendMmsActivity" -->
         <!-- android:exported="false" /> -->
@@ -63,7 +66,7 @@
         <!-- android:name=".ContentWriteActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".ProviderMmsActivity"
+            android:name=".ProviderApkActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,7 +74,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
     </application>
 
 </manifest>
