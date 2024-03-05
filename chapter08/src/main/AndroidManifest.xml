@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".SpinnerDropdownActivity"-->
+<!--            android:name=".SpinnerDialogActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".SpinnerDropdownActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
-            android:name=".SpinnerDropdownActivity"
+            android:name=".SpinnerDialogActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
