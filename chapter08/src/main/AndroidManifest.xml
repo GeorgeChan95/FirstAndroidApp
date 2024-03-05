@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".BaseAdapterActivity"-->
+<!--            android:name=".ListViewActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".BaseAdapterActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".SpinnerIconActivity" -->
         <!-- android:exported="false" /> -->
@@ -22,7 +25,7 @@
         <!-- android:name=".SpinnerDropdownActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".BaseAdapterActivity"
+            android:name=".ListViewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
