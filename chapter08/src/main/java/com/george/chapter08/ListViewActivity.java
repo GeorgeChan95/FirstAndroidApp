@@ -73,8 +73,15 @@ public class ListViewActivity extends AppCompatActivity implements AdapterView.O
         switch (buttonView.getId()) {
             case R.id.ck_divider:
                 if (isChecked) {
-                    Drawable drawable = getResources().getDrawable(R.color.black);
+                    Drawable drawable = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        drawable = getResources().getDrawable(R.color.black, getTheme());
+                    } else {
+                        drawable = getResources().getDrawable(R.color.black);
+                    }
+                    // 设置分割线
                     lv_planet.setDivider(drawable);
+                    // 设置分割线的高
                     lv_planet.setDividerHeight(Utils.dip2px(this, 1));
                 } else {
                     lv_planet.setDivider(null);
@@ -90,8 +97,10 @@ public class ListViewActivity extends AppCompatActivity implements AdapterView.O
                     } else {
                         drawable = getResources().getDrawable(R.drawable.list_selector);
                     }
+                    // 设置按压背景
                     lv_planet.setSelector(drawable);
                 } else {
+                    // 设置按压背景
                     lv_planet.setSelector(R.color.transparent);
                 }
                 break;
