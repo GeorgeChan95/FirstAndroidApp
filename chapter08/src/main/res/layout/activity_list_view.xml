@@ -36,10 +36,12 @@
         android:text="列表视图"
         android:textSize="17sp"/>
 
+    <!-- 书里推荐的列表视图高度设置方式-->
     <ListView
         android:id="@+id/lv_planet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@null"
         />
 </LinearLayout>
