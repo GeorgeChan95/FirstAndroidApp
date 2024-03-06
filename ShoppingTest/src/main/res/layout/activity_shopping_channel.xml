@@ -8,13 +8,10 @@
     <!-- 引入公共页面：标题栏-->
     <include layout="@layout/title_shopping"/>
 
-    <ScrollView
+    <GridView
+        android:id="@+id/gv_channel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <GridLayout
-            android:id="@+id/gl_channel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2" />
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="2"/>
 </LinearLayout>
