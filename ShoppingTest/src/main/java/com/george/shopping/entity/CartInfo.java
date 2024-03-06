@@ -7,6 +7,8 @@ public class CartInfo {
     public int goodsId;
     // 商品数量
     public int count;
+    // 商品信息
+    public GoodsInfo goods;
 
     public CartInfo(){}
 
