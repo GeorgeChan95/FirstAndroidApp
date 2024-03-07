@@ -8,10 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FirstAndroidApp">
+        android:theme="@style/AppCompatTheme">
 <!--        <activity-->
-<!--            android:name=".PagerTabActivity"-->
+<!--            android:name=".LaunchSimpleActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".PagerTabActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".ViewPagerActivity" -->
         <!-- android:exported="false" /> -->
@@ -37,7 +40,7 @@
         <!-- android:name=".SpinnerDropdownActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".PagerTabActivity"
+            android:name=".LaunchSimpleActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
