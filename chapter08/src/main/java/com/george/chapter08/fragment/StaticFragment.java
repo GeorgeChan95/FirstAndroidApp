@@ -24,7 +24,7 @@ public class StaticFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.d(TAG, "Fragment ");
+        Log.d(TAG, "Fragment onAttach");
     }
 
     /**
@@ -33,6 +33,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "Fragment onCreate");
         super.onCreate(savedInstanceState);
     }
 
@@ -46,6 +47,7 @@ public class StaticFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "Fragment onCreateView");
         View view = inflater.inflate(R.layout.fragment_static, container, false);
         return view;
     }
@@ -57,6 +59,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "Fragment onViewCreated");
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -65,6 +68,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onStart() {
+        Log.d(TAG, "Fragment onStart");
         super.onStart();
     }
 
@@ -73,6 +77,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onResume() {
+        Log.d(TAG, "Fragment onResume");
         super.onResume();
     }
 
@@ -81,6 +86,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onPause() {
+        Log.d(TAG, "Fragment onPause");
         super.onPause();
     }
 
@@ -89,6 +95,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onStop() {
+        Log.d(TAG, "Fragment onStop");
         super.onStop();
     }
 
@@ -97,6 +104,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onDestroy() {
+        Log.d(TAG, "Fragment onDestroy");
         super.onDestroy();
     }
 
@@ -105,6 +113,7 @@ public class StaticFragment extends Fragment {
      */
     @Override
     public void onDetach() {
+        Log.d(TAG, "Fragment onDetach");
         super.onDetach();
     }
 }
