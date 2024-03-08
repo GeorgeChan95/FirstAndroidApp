@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppCompatTheme">
 <!--        <activity-->
-<!--            android:name=".LaunchSimpleActivity"-->
+<!--            android:name=".FragmentStaticActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".LaunchSimpleActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".PagerTabActivity" -->
         <!-- android:exported="false" /> -->
@@ -40,7 +43,7 @@
         <!-- android:name=".SpinnerDropdownActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".LaunchSimpleActivity"
+            android:name=".FragmentStaticActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
