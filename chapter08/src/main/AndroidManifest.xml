@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppCompatTheme">
 <!--        <activity-->
-<!--            android:name=".FragmentDynamicActivity"-->
+<!--            android:name=".LaunchImproveActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".FragmentDynamicActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".FragmentStaticActivity" -->
         <!-- android:exported="false" /> -->
@@ -46,11 +49,10 @@
         <!-- android:name=".SpinnerDropdownActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".FragmentDynamicActivity"
+            android:name=".LaunchImproveActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
