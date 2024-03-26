@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.george.chapter09">
-
     <!-- 添加震动管理权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
+<!--        <activity-->
+<!--            android:name=".SystemMinuteActivity"-->
+<!--            android:exported="false" />-->
+
         <receiver
             android:name=".receiver.StaticReceiver"
             android:enabled="true"
@@ -19,9 +23,6 @@
                 <action android:name="com.george.chapter09.staticAction" />
             </intent-filter>
         </receiver>
-
-
-
         <receiver
             android:name=".receiver.OrderBReceiver"
             android:enabled="true"
@@ -33,11 +34,9 @@
         <receiver
             android:name=".receiver.StandardReceiver"
             android:enabled="true"
-            android:exported="true" />
-<!--        <activity-->
-<!--            android:name=".BroadStaticActivity"-->
-<!--            android:exported="false" />-->
-
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".BroadStaticActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".BroadOrderActivity" -->
         <!-- android:exported="false" /> -->
@@ -45,7 +44,7 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".BroadStaticActivity"
+            android:name=".SystemMinuteActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
