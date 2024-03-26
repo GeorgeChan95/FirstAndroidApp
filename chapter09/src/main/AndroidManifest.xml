@@ -10,28 +10,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
         <receiver
+            android:name=".receiver.StaticReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.george.chapter09.staticAction" />
+            </intent-filter>
+        </receiver>
+
+
+
+        <receiver
             android:name=".receiver.OrderBReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
         <receiver
             android:name=".receiver.OrderAReceiver"
             android:enabled="true"
             android:exported="true" />
-
         <receiver
             android:name=".receiver.StandardReceiver"
             android:enabled="true"
             android:exported="true" />
-
 <!--        <activity-->
-<!--            android:name=".BroadOrderActivity"-->
+<!--            android:name=".BroadStaticActivity"-->
 <!--            android:exported="false" />-->
 
+        <!-- <activity -->
+        <!-- android:name=".BroadOrderActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".BroadOrderActivity"
+            android:name=".BroadStaticActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
