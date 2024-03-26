@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".SystemNetworkActivity"-->
+<!--            android:name=".AlarmActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".SystemNetworkActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".SystemMinuteActivity" -->
         <!-- android:exported="false" /> -->
@@ -46,7 +49,7 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".SystemNetworkActivity"
+            android:name=".AlarmActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
