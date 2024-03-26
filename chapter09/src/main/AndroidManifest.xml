@@ -12,9 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".SystemMinuteActivity"-->
+<!--            android:name=".SystemNetworkActivity"-->
 <!--            android:exported="false" />-->
-
+        <!-- <activity -->
+        <!-- android:name=".SystemMinuteActivity" -->
+        <!-- android:exported="false" /> -->
         <receiver
             android:name=".receiver.StaticReceiver"
             android:enabled="true"
@@ -44,7 +46,7 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".SystemMinuteActivity"
+            android:name=".SystemNetworkActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
