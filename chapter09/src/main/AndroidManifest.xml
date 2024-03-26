@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".ChangeDirectionActivity"-->
+<!--            android:name=".ReturnDesktopActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".ChangeDirectionActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".AlarmActivity" -->
         <!-- android:exported="false" /> -->
@@ -52,10 +55,11 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".ChangeDirectionActivity"
+            android:name=".ReturnDesktopActivity"
             android:configChanges="orientation|screenLayout|screenSize"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:supportsPictureInPicture="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
