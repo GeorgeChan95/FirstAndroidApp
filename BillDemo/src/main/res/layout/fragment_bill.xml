@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <!-- android:divider="@null" 表示列表上下元素分割线为空 -->
+    <!-- android:drawSelectorOnTop="false" //点击某条记录不放，颜色会在记录的后面成为背景色,内容的文字可见(缺省为false) -->
+    <ListView
+        android:id="@+id/lv_bill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:drawSelectorOnTop="false" />
+</LinearLayout>
