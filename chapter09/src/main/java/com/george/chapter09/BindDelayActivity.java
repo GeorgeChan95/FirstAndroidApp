@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.george.chapter09.service.BindDelayService;
 import com.george.chapter09.util.DateUtil;
 
+/**
+ * Service延迟绑定
+ */
 public class BindDelayActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "GeorgeTag";
 

@@ -7,27 +7,27 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.george.chapter09.BindImmediateActivity;
+import com.george.chapter09.ServiceDataActivity;
 
-/**
- * Service 立即绑定
- */
-public class BindImmediateService extends Service {
+public class DataService extends Service {
     private static final String TAG = "GeorgeTag";
+    public DataService() {
+    }
 
-    // 创建一个粘合剂对象
     private final IBinder mBinder = new LocalBinder();
-    // 定时Service粘合剂，用于将该服务粘合到活动页面的进程中
     public class LocalBinder extends Binder {
-        public BindImmediateService getService() {
-            return BindImmediateService.this;
+        public DataService getService() {
+            return DataService.this;
+        }
+
+        public int getNumber(int number) {
+            Log.d(TAG, "DataService接收到参数：" + number);
+            return 2*number;
         }
     }
 
-    public BindImmediateService() {
-    }
-
     private void refresh(String text) {
-        BindImmediateActivity.showText(text);
+        ServiceDataActivity.showText(text);
     }
 
     @Override
@@ -71,4 +71,5 @@ public class BindImmediateService extends Service {
         super.onDestroy();
         refresh("onDestroy");
     }
+
 }
