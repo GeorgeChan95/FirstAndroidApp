@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.george.chapter09">
+
     <!-- 添加震动管理权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -11,15 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
-<!--        <activity-->
-<!--            android:name=".ReturnDesktopActivity"-->
-<!--            android:exported="false" />-->
+        <service
+            android:name=".service.BindImmediateService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <!-- <activity -->
+        <!-- android:name=".BindImmediateActivity" -->
+        <!-- android:exported="false" /> -->
+        <service
+            android:name=".service.NormalService"
+            android:enabled="true"
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".ServiceNormalActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".ReturnDesktopActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".ChangeDirectionActivity" -->
         <!-- android:exported="false" /> -->
-<!--         <activity-->
-<!--         android:name=".AlarmActivity"-->
-<!--         android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".AlarmActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".SystemNetworkActivity" -->
         <!-- android:exported="false" /> -->
@@ -33,8 +47,7 @@
             <intent-filter>
                 <action android:name="com.george.chapter09.staticAction" />
             </intent-filter>
-        </receiver>
-        <!-- <activity -->
+        </receiver> <!-- <activity -->
         <!-- android:name=".BroadStaticActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->
@@ -44,11 +57,11 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".AlarmActivity"
+            android:name=".BindImmediateActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:exported="true"
-            android:supportsPictureInPicture="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:supportsPictureInPicture="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
