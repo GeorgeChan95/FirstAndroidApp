@@ -38,13 +38,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         // 从系统服务中获取闹钟管理器
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 
+        // 当前时间延迟5秒执行
+        long delayTime = System.currentTimeMillis() + 10 * 1000;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 允许在空闲时发送广播，Android6.0之后新增的方法
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 1000, pendingIntent);
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, delayTime, pendingIntent);
         } else {
             // 设置一次性闹钟，延迟若干秒后，携带延迟意图发送闹钟广播（但Android6.0之后，set方法在暗屏时不保证发送广播，
             // 必须调用setAndAllowWhileIdle方法）
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 1000, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, delayTime, pendingIntent);
         }
 
         // 设置重复闹钟，每隔一定间隔就发送闹钟广播（但从Android4.4开始，setRepeating方法不保证按时发送广播）

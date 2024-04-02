@@ -17,9 +17,9 @@
         <!-- <activity -->
         <!-- android:name=".ChangeDirectionActivity" -->
         <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".AlarmActivity" -->
-        <!-- android:exported="false" /> -->
+<!--         <activity-->
+<!--         android:name=".AlarmActivity"-->
+<!--         android:exported="false" />-->
         <!-- <activity -->
         <!-- android:name=".SystemNetworkActivity" -->
         <!-- android:exported="false" /> -->
@@ -34,18 +34,7 @@
                 <action android:name="com.george.chapter09.staticAction" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".receiver.OrderBReceiver"
-            android:enabled="true"
-            android:exported="true" />
-        <receiver
-            android:name=".receiver.OrderAReceiver"
-            android:enabled="true"
-            android:exported="true" />
-        <receiver
-            android:name=".receiver.StandardReceiver"
-            android:enabled="true"
-            android:exported="true" /> <!-- <activity -->
+        <!-- <activity -->
         <!-- android:name=".BroadStaticActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->
@@ -55,7 +44,7 @@
         <!-- android:name=".BroadStandardActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".ReturnDesktopActivity"
+            android:name=".AlarmActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:exported="true"
             android:supportsPictureInPicture="true"
