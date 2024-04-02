@@ -3,13 +3,19 @@ plugins {
 }
 
 android {
+    // 指定编译用的SDK版本号，比如31表示使用 Android12 编译
     compileSdk 31
 
     defaultConfig {
+        // 指定该模块的应用编号，也就是APP的包名
         applicationId "com.george.billdemo"
+        // 指定APP适合运行的最小SDK版本号，比如19表示至少要在Android4.4上运行
         minSdk 19
+        // 指定目标设备的SDK版本号，表示
         targetSdk 31
+        // 指定APP的应用版本号
         versionCode 1
+        // 指定APP的应用版本名称
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,10 +34,12 @@ android {
 }
 
 dependencies {
-
+    // 指定编译Android的高版本支持库。如AppCompatActivity必须指定编译appcompat库
+    //appcompat库各版本见 https://mvnrepository.com/artifact/androidx.appcompat/appcompat
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // 指定单元测试编译用的junit版本号
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
