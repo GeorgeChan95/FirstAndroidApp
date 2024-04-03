@@ -62,8 +62,16 @@ public class BillPagerActivity extends AppCompatActivity implements View.OnClick
                     calendar.get(Calendar.DAY_OF_MONTH));
             DatePicker datePicker = dialog.getDatePicker();
             // 隐藏控件 日
-            ((ViewGroup) ((ViewGroup)datePicker.getChildAt(0)).getChildAt(0))
-                    .getChildAt(1).setVisibility(View.GONE);
+            // 获取年月日的下拉列表项
+            ViewGroup vg = (ViewGroup) ((ViewGroup) datePicker.getChildAt(0)).getChildAt(0);
+            if (vg.getChildCount() == 3) {
+                // 有的机型显示格式为“月日年”，此时隐藏第三个控件
+                vg.getChildAt(1).setVisibility(View.GONE);
+            } else if (vg.getChildCount() == 5) {
+                // 有的机型显示格式为“月|日|年”，此时隐藏第2个和第3个控件（即“|日”）
+                vg.getChildAt(1).setVisibility(View.GONE);
+                vg.getChildAt(2).setVisibility(View.GONE);
+            }
             dialog.show();
         } else if (v.getId() == R.id.tv_option) {
             Intent intent = new Intent(this, BillAddActivity.class);

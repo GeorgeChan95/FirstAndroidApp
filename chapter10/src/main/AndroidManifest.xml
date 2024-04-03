@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".ShowDrawActivity"-->
+<!--            android:name=".MonthPickerActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".ShowDrawActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".MeasureLayoutActivity" -->
         <!-- android:exported="false" /> -->
@@ -23,7 +26,7 @@
         <!-- android:exported="false" -->
         <!-- android:theme="@style/AppTheme"/> -->
         <activity
-            android:name=".ShowDrawActivity"
+            android:name=".MonthPickerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
