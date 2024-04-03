@@ -10,14 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".MeasureTextActivity"-->
+<!--            android:name=".MeasureLayoutActivity"-->
 <!--            android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".MeasureTextActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".CustomButtonActivity" -->
         <!-- android:exported="false" -->
         <!-- android:theme="@style/AppTheme"/> -->
         <activity
-            android:name=".MeasureTextActivity"
+            android:name=".MeasureLayoutActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
