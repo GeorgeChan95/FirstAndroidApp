@@ -9,19 +9,14 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_content"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
-        <!-- 使用自定控件，可设置属性 -->
-        <com.george.chapter08.widget.CustomPageTab
+        android:layout_height="360dp">
+
+        <com.george.chapter10.widget.CustomPageTab
             android:id="@+id/pts_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#E81313"
-            android:textSize="18sp"/>
-        <!-- 使用默认原生的控件 -->
-<!--        <androidx.viewpager.widget.PagerTabStrip-->
-<!--            android:id="@+id/pts_tab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
+            android:textSize="17sp"
+            android:textColor="#ff0000"/>
     </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

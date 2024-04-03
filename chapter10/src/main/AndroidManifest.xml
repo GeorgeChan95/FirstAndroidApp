@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity-->
-<!--            android:name=".MonthPickerActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".CustomTabActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".MonthPickerActivity" -->
+        <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".ShowDrawActivity" -->
         <!-- android:exported="false" /> -->

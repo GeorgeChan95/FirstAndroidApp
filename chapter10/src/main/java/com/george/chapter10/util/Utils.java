@@ -1,4 +1,4 @@
-package com.george.chapter08.util;
+package com.george.chapter10.util;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -72,3 +72,4 @@ public class Utils {
     }
 
 }
+
