@@ -17,6 +17,7 @@
         android:text="这是来自style的Button"
         style="@style/CommonButton"/>
 
+    <!-- 使用自定义按钮控件 -->
     <com.george.chapter10.widget.CustomButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

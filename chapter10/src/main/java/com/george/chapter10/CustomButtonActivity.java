@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/**
+ * 自定义按钮控件
+ */
 public class CustomButtonActivity extends AppCompatActivity {
 
     @Override
