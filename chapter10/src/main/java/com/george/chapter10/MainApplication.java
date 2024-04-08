@@ -14,7 +14,7 @@ public class MainApplication extends Application {
     private final static String TAG = "GeorgeTag";
     private static MainApplication mApp;
 
-    private static MainApplication getInstance() {
+    public static MainApplication getInstance() {
         return mApp;
     }
 

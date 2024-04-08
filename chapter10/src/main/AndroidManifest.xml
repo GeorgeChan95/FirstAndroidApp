@@ -3,6 +3,8 @@
     package="com.george.chapter10">
     <!-- 允许前台服务（Android 9.0之后需要） -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 开启悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name=".MainApplication"
@@ -12,36 +14,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
 <!--        <activity-->
-<!--            android:name=".ForegroundServiceActivity"-->
+<!--            android:name=".FloatNoticeActivity"-->
 <!--            android:exported="false" />-->
-        <!-- <activity -->
-        <!-- android:name=".NotifySimpleActivity" -->
-        <!-- android:exported="false" /> -->
+         <activity
+            android:name=".ForegroundServiceActivity"
+            android:exported="false" />
+         <activity
+            android:name=".NotifySimpleActivity"
+            android:exported="false" />
         <activity
             android:name=".NoscrollListActivity"
             android:exported="false" />
         <activity
             android:name=".CustomTabActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".MonthPickerActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".ShowDrawActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".MeasureLayoutActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".MeasureTextActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".CustomButtonActivity" -->
-        <!-- android:exported="false" -->
-        <!-- android:theme="@style/AppTheme"/> -->
+            android:exported="false" />
+         <activity
+            android:name=".MonthPickerActivity"
+            android:exported="false" />
+         <activity
+            android:name=".ShowDrawActivity"
+            android:exported="false" />
+         <activity
+            android:name=".MeasureLayoutActivity"
+            android:exported="false" />
+         <activity
+            android:name=".MeasureTextActivity"
+            android:exported="false" />
+         <activity
+            android:name=".CustomButtonActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name=".ForegroundServiceActivity"
+            android:name=".FloatNoticeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!-- 自定义Service -->
         <service android:name=".service.MusicService" />
     </application>
