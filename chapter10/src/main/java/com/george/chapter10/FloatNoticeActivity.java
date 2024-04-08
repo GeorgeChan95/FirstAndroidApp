@@ -35,6 +35,8 @@ public class FloatNoticeActivity extends AppCompatActivity {
      */
     private void openFloatWindow() {
         Log.d(TAG, "执行了 openFloatWindow");
+        FloatingWindowService service = new FloatingWindowService();
+        service.setMContext(FloatNoticeActivity.this);
         Intent intent = new Intent(this, FloatingWindowService.class);
         intent.putExtra("message", et_content.getText().toString());
         startService(intent);

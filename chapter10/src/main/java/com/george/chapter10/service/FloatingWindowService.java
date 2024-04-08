@@ -1,6 +1,7 @@
 package com.george.chapter10.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
@@ -25,11 +26,12 @@ public class FloatingWindowService extends Service {
     private String message;
     private static FloatWindow mFloatWindow;
     private TextView tv_content;
+    private static Context mContext;
 
     // 创建一个粘合剂对象
     private final IBinder mBinder = new LocalBinder();
 
-    private class LocalBinder extends Binder {
+    public class LocalBinder extends Binder {
         public FloatingWindowService getService() {
             return FloatingWindowService.this;
         }
@@ -63,7 +65,9 @@ public class FloatingWindowService extends Service {
                 @Override
                 public void onFloatClick(View v) {
                     // 跳转页面
-                    Intent intent = new Intent(FloatingWindowService.this, CustomButtonActivity.class);
+                    Intent intent = new Intent(mContext, CustomButtonActivity.class);
+                    // 打开一个新的页面
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     // 关闭悬浮窗
                     mFloatWindow.close();
@@ -96,5 +100,9 @@ public class FloatingWindowService extends Service {
     @Override
     public void onRebind(Intent intent) {
         super.onRebind(intent);
+    }
+
+    public void setMContext(Context context) {
+        this.mContext = context;
     }
 }
