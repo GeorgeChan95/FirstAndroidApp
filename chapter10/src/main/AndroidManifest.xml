@@ -14,10 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".ViewInvalidateActivity"-->
+<!--            android:name=".PieAnimationActivity"-->
 <!--            android:exported="false" />-->
-
-         <!-- <activity -->
+        <!-- <activity -->
+        <!-- android:name=".ViewInvalidateActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
         <!-- android:name=".FloatNoticeActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -49,7 +51,7 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ViewInvalidateActivity"
+            android:name=".PieAnimationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
