@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.george.chapter10">
-
     <!-- 允许前台服务（Android 9.0之后需要） -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 开启悬浮窗权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -14,11 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".service.FloatingWindowService"
-            android:enabled="true"
-            android:exported="true"/>
-        <!-- <activity -->
+<!--        <activity-->
+<!--            android:name=".ViewInvalidateActivity"-->
+<!--            android:exported="false" />-->
+
+         <!-- <activity -->
         <!-- android:name=".FloatNoticeActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -50,7 +49,7 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".FloatNoticeActivity"
+            android:name=".ViewInvalidateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,6 +58,10 @@
             </intent-filter>
         </activity> <!-- 自定义Service -->
         <service android:name=".service.MusicService" />
+        <service
+            android:name=".service.FloatingWindowService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
