@@ -19,6 +19,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--使用ToolBar替代NoActionBar-->
+    <style name="AppCompatTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->

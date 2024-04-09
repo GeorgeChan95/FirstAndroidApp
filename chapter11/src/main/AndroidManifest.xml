@@ -10,19 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
 <!--        <activity-->
-<!--            android:name=".TabPagerActivity"-->
+<!--            android:name=".ToolbarActivity"-->
 <!--            android:exported="false" />-->
          <activity
-         android:name=".TabButtonActivity"
+         android:name=".TabPagerActivity"
          android:exported="false" />
+        <activity
+            android:name=".TabButtonActivity"
+            android:exported="false" />
         <activity
             android:name=".TabNavigationActivity"
             android:exported="false"
             android:label="@string/title_activity_tab_navigation" />
         <activity
-            android:name=".TabPagerActivity"
+            android:name=".ToolbarActivity"
             android:exported="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppCompatTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
