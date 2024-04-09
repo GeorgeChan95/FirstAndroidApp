@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:padding="5dp">
 
+    <!-- drawableTop是TextView的一个属性，用于设置TextView上方的图标 -->
     <CheckBox
         android:id="@+id/ck_tab"
         android:layout_width="100dp"
@@ -28,5 +29,27 @@
         android:textSize="17sp"
         android:textColor="@color/black"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
+    <!-- drawableTop是TextView的一个属性，用于设置TextView上方的图标 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <CheckBox
+            style="@style/TabButton"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_first_selector"
+            android:text="首页"/>
+        <CheckBox
+            style="@style/TabButton"
+            android:drawableTop="@drawable/tab_first_selector"
+            android:text="分类"/>
+        <CheckBox
+            style="@style/TabButton"
+            android:drawableTop="@drawable/tab_first_selector"
+            android:text="购物车"/>
+    </LinearLayout>
 </LinearLayout>
