@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
 <!--        <activity-->
-<!--            android:name=".TabNavigationActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_tab_navigation" />-->
+<!--            android:name=".TabButtonActivity"-->
+<!--            android:exported="false" />-->
+         <activity
+         android:name=".TabNavigationActivity"
+         android:exported="false"
+         android:label="@string/title_activity_tab_navigation" />
         <activity
-            android:name=".TabNavigationActivity"
+            android:name=".TabButtonActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>
