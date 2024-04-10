@@ -47,7 +47,6 @@ public class SpacesDecoration extends RecyclerView.ItemDecoration {
         super.onDraw(c, parent, state);
 
         // 绘制分割线
-
         // 获取了 RecyclerView 左边缘和右边缘的坐标，减去了 padding 的宽度。
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
