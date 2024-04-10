@@ -47,15 +47,25 @@ public class SpacesDecoration extends RecyclerView.ItemDecoration {
         super.onDraw(c, parent, state);
 
         // 绘制分割线
+
+        // 获取了 RecyclerView 左边缘和右边缘的坐标，减去了 padding 的宽度。
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
+        // 获取 RecyclerView 中子项的数量
         int childCount = parent.getChildCount();
+        // 遍历 RecyclerView 中的每一个子项
         for (int i = 0; i < childCount; i++) {
+            // 获取了当前子项的 View 对象
             View child = parent.getChildAt(i);
+            // 获取了当前子项的布局参数
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            // 计算了分割线顶部的坐标，即当前子项底部坐标加上底部 margin
             int top = child.getBottom() + params.bottomMargin;
+            // 计算了分割线底部的坐标，即顶部坐标加上分割线的高度
             int bottom = top + mDivider.getIntrinsicHeight();
+            // 设置了分割线的边界，即左上角和右下角的坐标
             mDivider.setBounds(left, top, right, bottom);
+            // 使用 Canvas 对象 c 来绘制分割线
             mDivider.draw(c);
         }
     }
