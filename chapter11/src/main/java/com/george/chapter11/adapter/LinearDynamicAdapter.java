@@ -73,16 +73,21 @@ public class LinearDynamicAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onClick(View v) {
         int position = getPosition((int) v.getId() / 10);
         int type = (int) v.getId() % 10;
-
-        if (type == CLICK) { // 正常点击，则触发点击监听器的onItemClick方法
-            if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v, position);
-            }
-        } else if (type == DELETE) { // 点击了删除按钮，则触发删除监听器的onItemDeleteClick方法
-            if (mOnItemDeleteClickListener != null) {
-                mOnItemDeleteClickListener.onItemDeleteClick(v, position);
-            }
+        if (v.getId() == R.id.tv_delete) {
+            mOnItemDeleteClickListener.onItemDeleteClick(v, position);
+        } else if (v.getId() == R.id.ll_item) {
+            mOnItemClickListener.onItemClick(v, position);
         }
+
+//        if (type == CLICK) { // 正常点击，则触发点击监听器的onItemClick方法
+//            if (mOnItemClickListener != null) {
+//                mOnItemClickListener.onItemClick(v, position);
+//            }
+//        } else if (type == DELETE) { // 点击了删除按钮，则触发删除监听器的onItemDeleteClick方法
+//            if (mOnItemDeleteClickListener != null) {
+//                mOnItemDeleteClickListener.onItemDeleteClick(v, position);
+//            }
+//        }
     }
 
     @Override

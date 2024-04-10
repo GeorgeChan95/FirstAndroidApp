@@ -54,4 +54,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     // recyclerview各版本见 https://mvnrepository.com/artifact/androidx.recyclerview/recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    // swiperefreshlayout各版本见 https://mvnrepository.com/artifact/androidx.swiperefreshlayout/swiperefreshlayout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
