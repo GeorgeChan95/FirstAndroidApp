@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
 <!--        <activity-->
-<!--            android:name=".TabLayoutActivity"-->
+<!--            android:name=".RecyclerLinearActivity"-->
 <!--            android:exported="false" />-->
          <activity
-         android:name=".OverflowMenuActivity"
+         android:name=".TabLayoutActivity"
          android:exported="false" />
+        <activity
+            android:name=".OverflowMenuActivity"
+            android:exported="false" />
         <activity
             android:name=".ToolbarActivity"
             android:exported="false" />
@@ -29,7 +32,7 @@
             android:exported="false"
             android:label="@string/title_activity_tab_navigation" />
         <activity
-            android:name=".TabLayoutActivity"
+            android:name=".RecyclerLinearActivity"
             android:exported="true"
             android:theme="@style/AppCompatTheme">
             <intent-filter>

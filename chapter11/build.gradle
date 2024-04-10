@@ -52,4 +52,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     // material各版本见 https://mvnrepository.com/artifact/com.google.android.material/material
     implementation 'com.google.android.material:material:1.8.0'
+    // recyclerview各版本见 https://mvnrepository.com/artifact/androidx.recyclerview/recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
 }
