@@ -56,7 +56,7 @@ public class PlanetListWithButtonAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Planet planet = mPlaneList.get(position);
-        // // 组织列表项点击事件向下传递
+        // 阻止列表项点击事件向下传递
         holder.ll_item.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         holder.iv_icon.setImageResource(planet.image);
         holder.tv_name.setText(planet.name);
