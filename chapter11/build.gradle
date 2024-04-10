@@ -56,4 +56,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     // swiperefreshlayout各版本见 https://mvnrepository.com/artifact/androidx.swiperefreshlayout/swiperefreshlayout
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // viewpager2各版本见 https://mvnrepository.com/artifact/androidx.viewpager2/viewpager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
