@@ -5,10 +5,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-
 import com.george.chapter11.adapter.RecyclerLinearAdapter;
 import com.george.chapter11.entity.NewsInfo;
 import com.george.chapter11.widget.SpacesDecoration;
@@ -40,7 +37,8 @@ public class RecyclerLinearActivity extends AppCompatActivity {
         // 设置循环试图的动画效果
         rv_linear.setItemAnimator(new DefaultItemAnimator());
         // 设置视图的空白装饰，具体见：https://www.jianshu.com/p/bcbfb84fe6d1
-        SpacesDecoration decoration = new SpacesDecoration(1);
+
+        SpacesDecoration decoration = new SpacesDecoration(this,1, R.drawable.drawable_divider);
         rv_linear.addItemDecoration(decoration);
     }
 }

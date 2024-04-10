@@ -1,11 +1,10 @@
 package com.george.chapter11.widget;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SpacesDecoration extends RecyclerView.ItemDecoration {
     // 空白间隔
     private int space;
+    private Drawable mDivider;
+    private Context mContext;
 
-    public SpacesDecoration(int space) {
+    public SpacesDecoration(Context context, int space, int redId) {
         this.space = space;
+        this.mContext = context;
+        mDivider = context.getResources().getDrawable(redId);
     }
 
     /**
@@ -42,9 +45,19 @@ public class SpacesDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDraw(c, parent, state);
-//        Paint paint = new Paint();
-//        paint.setColor(Color.BLUE);
-//        c.drawRect(0, 0, 3000, 100, paint);
+
+        // 绘制分割线
+        int left = parent.getPaddingLeft();
+        int right = parent.getWidth() - parent.getPaddingRight();
+        int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            int top = child.getBottom() + params.bottomMargin;
+            int bottom = top + mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
     }
 
     /**
