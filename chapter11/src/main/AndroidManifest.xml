@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
 <!--        <activity-->
-<!--            android:name=".ViewPager2RecyclerActivity"-->
+<!--            android:name=".ViewPager2FragmentActivity"-->
 <!--            android:exported="false" />-->
          <activity
-         android:name=".SwipeRecyclerActivity"
+         android:name=".ViewPager2RecyclerActivity"
          android:exported="false" />
+        <activity
+            android:name=".SwipeRecyclerActivity"
+            android:exported="false" />
         <activity
             android:name=".RecyclerDynamicActivity"
             android:exported="false" />
@@ -47,7 +50,7 @@
             android:exported="false"
             android:label="@string/title_activity_tab_navigation" />
         <activity
-            android:name=".ViewPager2RecyclerActivity"
+            android:name=".ViewPager2FragmentActivity"
             android:exported="true"
             android:theme="@style/AppCompatTheme">
             <intent-filter>
