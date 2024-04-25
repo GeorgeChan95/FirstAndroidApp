@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.george.chapter13.entity.LoginInfo;
 import com.george.chapter13.entity.UserInfo;
 import com.google.gson.Gson;
 
@@ -20,8 +21,11 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkhttpCallActivity extends AppCompatActivity {
@@ -55,9 +59,9 @@ public class OkhttpCallActivity extends AppCompatActivity {
             if (mCheckedId == R.id.rb_get) { // GET 请求
                 httpGet();
             } else if (mCheckedId == R.id.rb_post_form) { // POST请求发送FORM表单
-
+                postForm();
             } else if (mCheckedId == R.id.rb_post_json) { // POST请求发送JSON数据
-
+                postJson();
             }
         });
     }
@@ -104,6 +108,81 @@ public class OkhttpCallActivity extends AppCompatActivity {
                 runOnUiThread(() -> tv_result.setText("GET请求获取用户信息：" + userInfo));
             }
         });
+    }
 
+    /**
+     * 表单提交POST请求
+     */
+    private void postForm() {
+        String username = et_username.getText().toString();
+        String password = this.et_password.getText().toString();
+        // 创建表单对象
+        FormBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .build();
+        // 创建okhttp客户端对象
+        OkHttpClient client = new OkHttpClient();
+        // 创建POST请求结构
+        Request request = new Request.Builder()
+                .post(formBody)
+                .header("Accept", "*/*") // 给http请求添加头部信息
+                .header("Accept-Encoding", "gzip, deflate, br, zstd")
+                .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
+                .url("http://192.168.6.209:8008/user/login")
+                .build();
+        // 根据请求结构创建调用对象
+        Call call = client.newCall(request);
+        // 加入HTTP请求队列。异步调用，并设置接口应答的回调方法
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(() -> {
+                    tv_result.setText("调用登录接口报错：" + e.getMessage());
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String res = response.body().string();
+                runOnUiThread(() -> tv_result.setText("调用登录接口返回：" + res));
+            }
+        });
+    }
+
+    /**
+     * Http Post请求提交json数据
+     */
+    private void postJson() {
+        String username = et_username.getText().toString();
+        String password = this.et_password.getText().toString();
+        LoginInfo login = new LoginInfo(username, password);
+        Gson gson = new Gson();
+        String json = gson.toJson(login);
+
+        // 创建okhttp客户端对象
+        OkHttpClient client = new OkHttpClient();
+        // 创建POST请求体
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json;charset=UTF-8"));
+        Request request = new Request.Builder()
+                .post(body)
+                .url("http://192.168.6.209:8008/user/loginJson")
+                .build();
+        // 根据请求结构创建调用对象
+        Call call = client.newCall(request);
+        // 加入HTTP请求队列。异步调用，并设置接口应答的回调方法
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                // 回到主线程操纵界面
+                runOnUiThread(() -> tv_result.setText("调用登录接口报错："+e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String res = response.body().string();
+                runOnUiThread(() -> tv_result.setText("调用登录接口返回：" + res));
+            }
+        });
     }
 }
