@@ -27,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import rxhttp.RxHttp;
 
 public class OkhttpCallActivity extends AppCompatActivity {
 
@@ -57,11 +58,14 @@ public class OkhttpCallActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_send).setOnClickListener(v -> {
             if (mCheckedId == R.id.rb_get) { // GET 请求
-                httpGet();
+//                httpGet();
+                rxHttpGet();
             } else if (mCheckedId == R.id.rb_post_form) { // POST请求发送FORM表单
-                postForm();
+//                postForm();
+                rxHttpPostForm();
             } else if (mCheckedId == R.id.rb_post_json) { // POST请求发送JSON数据
-                postJson();
+//                postJson();
+                rxHttpPostJson();
             }
         });
     }
@@ -175,7 +179,7 @@ public class OkhttpCallActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 // 回到主线程操纵界面
-                runOnUiThread(() -> tv_result.setText("调用登录接口报错："+e.getMessage()));
+                runOnUiThread(() -> tv_result.setText("调用登录接口报错：" + e.getMessage()));
             }
 
             @Override
@@ -184,5 +188,57 @@ public class OkhttpCallActivity extends AppCompatActivity {
                 runOnUiThread(() -> tv_result.setText("调用登录接口返回：" + res));
             }
         });
+    }
+
+    /**
+     * 使用RxHttp实现Get请求
+     */
+    private void rxHttpGet() {
+        RxHttp.get("user/getById/101")
+                .toObservableString()
+                .subscribe(str -> {
+                    Gson gson = new Gson();
+                    UserInfo userInfo = gson.fromJson(str, UserInfo.class);
+                    runOnUiThread(() -> tv_result.setText("RxHttp GET请求获取用户信息：" + userInfo));
+                }, throwable -> {
+                    runOnUiThread(() -> tv_result.setText("RxHttp GET请求获取用户信息异常，" + throwable.getMessage()));
+                });
+    }
+
+    /**
+     * 使用RxHttp 提交Form表单
+     */
+    private void rxHttpPostForm() {
+        String username = et_username.getText().toString();
+        String password = this.et_password.getText().toString();
+        RxHttp.postForm("user/login")
+                .add("username", username)
+                .add("password", password)
+                .toObservableString()
+                .subscribe(str -> {
+                    runOnUiThread(() -> tv_result.setText("调用登录接口返回：" + str));
+                }, throwable -> {
+                    tv_result.setText("调用登录接口报错：" + throwable.getMessage());
+                });
+    }
+
+    /**
+     * 使用RxHttp 提交JSON数据
+     */
+    private void rxHttpPostJson() {
+        String username = et_username.getText().toString();
+        String password = this.et_password.getText().toString();
+        LoginInfo login = new LoginInfo(username, password);
+        Gson gson = new Gson();
+        String json = gson.toJson(login);
+
+        RxHttp.postJson("user/loginJson")
+                .addAll(json)
+                .toObservableString()
+                .subscribe(str -> {
+                    runOnUiThread(() -> tv_result.setText("调用登录接口返回：" + str));
+                }, throwable -> {
+                    tv_result.setText("调用登录接口报错：" + throwable.getMessage());
+                });
     }
 }

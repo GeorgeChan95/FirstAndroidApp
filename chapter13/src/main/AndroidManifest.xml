@@ -12,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-<!--        <activity-->
-<!--            android:name=".OkhttpDownloadActivity"-->
-<!--            android:exported="false" />-->
-         <activity
-         android:name=".OkhttpCallActivity"
-         android:exported="false" />
         <activity
             android:name=".OkhttpDownloadActivity"
+            android:exported="false" />
+<!--         <activity-->
+<!--         android:name=".OkhttpCallActivity"-->
+<!--         android:exported="false" />-->
+        <activity
+            android:name=".OkhttpCallActivity"
             android:exported="true"
             android:theme="@style/AppCompatTheme">
             <intent-filter>

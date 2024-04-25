@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,6 +77,13 @@ public class OkhttpDownloadActivity extends AppCompatActivity {
      * 文件下载
      */
     private void downloadFile() {
+//        RxHttp.get("http://...")  //第一步，确定请求类型，可以选择postForm、postJson等方法
+//                .asString()           //第二步，确定返回类型，这里返回String类型
+//                .subscribe(s -> {     //第三步，订阅观察者，第二步返回Observable对象
+//                    //请求成功
+//                }, throwable -> {
+//                    //请求失败
+//                });
         tv_progress.setVisibility(View.VISIBLE);
         iv_result.setVisibility(View.GONE);
 

@@ -13,6 +13,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        rxhttp_rxjava: '3.1.6',
+                        rxhttp_package: 'rxhttp'  //指定RxHttp类包名，可随意指定
+                ]
+            }
+        }
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -25,6 +36,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding true //最新的写法
+    }
+
 }
 
 dependencies {
@@ -40,4 +56,17 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     // okhttp库各版本见 https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
+    def rxhttp_version = '3.2.6'
+    implementation "com.github.liujingxing.rxhttp:rxhttp:$rxhttp_version"
+    annotationProcessor "com.github.liujingxing.rxhttp:rxhttp-compiler:$rxhttp_version" //生成RxHttp类，纯Java项目，请使用 annotationProcessor 代替kapt
+
+
+    //rxjava3
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2' //管理RxJava3生命周期，页面销毁，关闭请求
+
+    // androidx库控件使用
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
