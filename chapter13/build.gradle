@@ -69,4 +69,7 @@ dependencies {
 
     // androidx库控件使用
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // 导入 Neovisionaries WebSocket 客户端库，用于在 Java 中实现 WebSocket 客户端
+    implementation 'com.neovisionaries:nv-websocket-client:2.6'
 }
