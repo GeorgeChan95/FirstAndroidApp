@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--注意：name可以随意取名！！！-->
+    <!--只有该目录下的文件可以访问 -->
+    <external-path path="Android/data/com.george.chapter14/" name="files_root" />
+    <!--sdcard 下所有文件都可以访问-->
+    <external-path path="." name="external_storage_root" />
+</paths>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">chapter14</string>
+    <string name="file_provider">com.george.chapter14.fileProvider</string>
 </resources>

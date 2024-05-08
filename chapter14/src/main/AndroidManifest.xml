@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.george.chapter14">
     <!-- 录音 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- 存储卡读写 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 存储卡读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".MediaRecorderActivity"-->
+<!--            android:name=".PhotoTakeActivity"-->
 <!--            android:exported="false" />-->
+         <activity
+         android:name=".MediaRecorderActivity"
+         android:exported="false" />
         <activity
-            android:name=".MediaRecorderActivity"
+            android:name=".PhotoTakeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +34,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="@string/file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
