@@ -5,9 +5,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 存储卡读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-
-    <!-- 相机 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -19,14 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity-->
-<!--            android:name=".PhotoTakeActivity"-->
-<!--            android:exported="false" />-->
-         <activity
-         android:name=".MediaRecorderActivity"
-         android:exported="false" />
+        <activity
+            android:name=".PhotoDetailActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".CameraxPhotoActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".PhotoTakeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MediaRecorderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CameraxPhotoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
