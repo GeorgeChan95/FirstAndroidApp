@@ -285,6 +285,8 @@ public class CameraXView extends RelativeLayout {
             @Override
             public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
                 mHandler.post(() -> bindCamera(MODE_PHOTO));
+                // 保存视频到相册中
+                BitmapUtil.saveVideo(mContext, new File(mVideoPath));
                 mStopListener.onStop("录制完成的视频路径为：" + mVideoPath);
             }
 

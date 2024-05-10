@@ -1,5 +1,7 @@
 package com.george.chapter14.utils;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -78,6 +80,33 @@ public class BitmapUtil {
         } catch (FileNotFoundException e) {
             Log.e(TAG, "通知相册有新照片操作异常，异常信息：" + e.getMessage());
         }
+    }
+
+    /**
+     * 保存视频
+     * @param context
+     * @param file
+     */
+    public static void saveVideo(Context context, File file) {
+        //是否添加到相册
+        ContentResolver localContentResolver = context.getContentResolver();
+        ContentValues localContentValues = getVideoContentValues(context, file, System.currentTimeMillis());
+        Uri localUri = localContentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, localContentValues);
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri));
+    }
+
+    public static ContentValues getVideoContentValues(Context context, File paramFile, long paramLong) {
+        ContentValues localContentValues = new ContentValues();
+
+        localContentValues.put(MediaStore.Video.Media.TITLE, paramFile.getName());
+        localContentValues.put(MediaStore.Video.Media.DISPLAY_NAME, paramFile.getName());
+        localContentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+        localContentValues.put(MediaStore.Video.Media.DATE_TAKEN, Long.valueOf(paramLong));
+        localContentValues.put(MediaStore.Video.Media.DATE_MODIFIED, Long.valueOf(paramLong));
+        localContentValues.put(MediaStore.Video.Media.DATE_ADDED, Long.valueOf(paramLong));
+        localContentValues.put(MediaStore.Video.Media.DATA, paramFile.getAbsolutePath());
+        localContentValues.put(MediaStore.Video.Media.SIZE, Long.valueOf(paramFile.length()));
+        return localContentValues;
     }
 
     /**
