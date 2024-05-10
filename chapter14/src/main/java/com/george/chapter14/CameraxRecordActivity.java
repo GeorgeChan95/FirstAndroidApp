@@ -2,6 +2,7 @@ package com.george.chapter14;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.george.chapter14.utils.PermissionUtil;
 import com.george.chapter14.widget.CameraXView;
 
 @SuppressLint("NewApi")
@@ -23,6 +25,15 @@ public class CameraxRecordActivity extends AppCompatActivity {
     private ImageView iv_record; // 录制按钮对象
     private boolean isRecording = false; // 是否正在录像
 
+    public String[] PERMISSIONS = new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+    };
+
+    public final int REQUEST_CODE = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +42,13 @@ public class CameraxRecordActivity extends AppCompatActivity {
         initView();
         // 初始化相机
         initCamera();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 打开页面，立即校验权限
+        PermissionUtil.checkPermission(this, PERMISSIONS, REQUEST_CODE);
     }
 
     /**

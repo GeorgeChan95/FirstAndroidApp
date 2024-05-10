@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 互联网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +21,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<!--        <activity-->
+<!--            android:name=".ExoPlayerActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".VideoDetailActivity"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".CameraxRecordActivity" -->
-        <!-- android:exported="false" /> -->
+         <activity
+         android:name=".CameraxRecordActivity"
+         android:exported="false" />
         <activity
             android:name=".PhotoDetailActivity"
             android:exported="false" /> <!-- <activity -->
@@ -33,7 +40,7 @@
             android:name=".MediaRecorderActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraxRecordActivity"
+            android:name=".ExoPlayerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

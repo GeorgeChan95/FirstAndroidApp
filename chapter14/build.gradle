@@ -44,4 +44,7 @@ dependencies {
     implementation 'androidx.camera:camera-lifecycle:1.0.2'
     // camerax库各版本见 https://mvnrepository.com/artifact/androidx.camera/camera-view
     implementation 'androidx.camera:camera-view:1.0.0-alpha32'
+
+    // exoplayer库各版本见 https://mvnrepository.com/artifact/com.google.android.exoplayer/exoplayer?repo=google
+    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
 }
