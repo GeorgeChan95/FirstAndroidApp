@@ -2,12 +2,14 @@ package com.george.chapter14.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,12 +64,15 @@ public class BitmapUtil {
         try {
             String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
             // 将指定的图像文件添加到相册中。
+            File file = new File(filePath);
             // 第一个参数是内容解析器，用于访问相册数据库；第二个参数是文件路径；第三个参数是文件名；第四个参数是描述，可以为空。
-            MediaStore.Images.Media.insertImage(ctx.getContentResolver(), filePath, fileName, null);
+            String insertImage = MediaStore.Images.Media.insertImage(ctx.getContentResolver(), file.getAbsolutePath(), fileName, null);
             // 将文件路径转换成Uri格式
-            Uri uri = Uri.parse("file://" + filePath);
+            Uri uri = Uri.parse(insertImage);
+            String realPath = getRealPathFromURI(uri, ctx);
+            File realFile = new File(realPath);
             // 创建了一个广播意图，用于通知系统扫描指定的文件，使其出现在媒体库中
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(realFile));
             // 发送了广播，通知系统扫描指定的文件
             ctx.sendBroadcast(intent);
         } catch (FileNotFoundException e) {
@@ -85,5 +90,21 @@ public class BitmapUtil {
         // 获得比例缩放之后的位图对象
         Bitmap zoomBitmap = getScaleBitmap(origin, 1.0/ratio);
         return zoomBitmap;
+    }
+
+    /**
+     * 得到绝对地址
+     * @param uri
+     * @param context
+     * @return
+     */
+    private static String getRealPathFromURI(Uri uri, Context context) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String fileStr = cursor.getString(column_index);
+        cursor.close();
+        return fileStr;
     }
 }

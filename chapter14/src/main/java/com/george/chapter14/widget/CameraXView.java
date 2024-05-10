@@ -65,7 +65,6 @@ public class CameraXView extends RelativeLayout {
      * 自定义视图需要重写构造方法
      * @param context
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) // 安卓版本大于 5.0
     public CameraXView(Context context) {
         this(context, null);
     }
@@ -75,7 +74,6 @@ public class CameraXView extends RelativeLayout {
      * @param context
      * @param attrs
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) // 安卓版本大于 5.0
     public CameraXView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
