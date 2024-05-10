@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
@@ -245,6 +246,65 @@ public class CameraXView extends RelativeLayout {
         } catch (Exception e) {
             Log.e(TAG, "绑定摄像头操作异常，相机模式：" + (cameraMode == MODE_PHOTO ? "拍照" : "录像"));
         }
+    }
+
+    // 拍摄的视频的路径
+    private String mVideoPath;
+    private int MAX_RECORD_TIME = 15; // 最大录制时长，默认15秒
+
+    /**
+     * 获取拍摄的视频路径
+     * @return
+     */
+
+    public String getmVideoPath() {
+        return mVideoPath;
+    }
+
+    /**
+     * 开始录制
+     * @param max_record_time 最大录制时长（毫秒）
+     * @return
+     */
+    @SuppressLint("RestrictedApi")
+    public void startRecord(int max_record_time) {
+        MAX_RECORD_TIME = max_record_time;
+        // 绑定摄像头
+        bindCamera(MODE_RECORD);
+        mVideoPath = String.format("%s/%s.mp4", mMediaDir, DateUtil.getNowDateTime());
+        VideoCapture.Metadata metadata = new VideoCapture.Metadata();
+        // 构建视频捕捉器的输出选项
+        VideoCapture.OutputFileOptions options = new VideoCapture.OutputFileOptions.Builder(new File(mVideoPath))
+                .setMetadata(metadata).build();
+        // 开始录像
+        mVideoCapture.startRecording(options, mExecutorService, new VideoCapture.OnVideoSavedCallback() {
+            /**
+             * 录制完成后的回调方法
+             * @param outputFileResults
+             */
+            @Override
+            public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
+                mHandler.post(() -> bindCamera(MODE_PHOTO));
+                mStopListener.onStop("录制完成的视频路径为：" + mVideoPath);
+            }
+
+            @Override
+            public void onError(int videoCaptureError, @NonNull String message, @Nullable Throwable cause) {
+                mHandler.post(() -> bindCamera(MODE_PHOTO));
+                mStopListener.onStop("录制失败，错误信息为："+cause.getMessage());
+            }
+        });
+
+        // 到达限定时长后自动停止录像
+        mHandler.postDelayed(() -> stopRecord(), MAX_RECORD_TIME*1000);
+    }
+
+    /**
+     * 停止录像
+     */
+    @SuppressLint("RestrictedApi")
+    public void stopRecord() {
+        mVideoCapture.stopRecording();
     }
 
     /**

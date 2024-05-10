@@ -18,11 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PhotoDetailActivity"
+            android:name=".VideoDetailActivity"
             android:exported="false" />
         <!-- <activity -->
-        <!-- android:name=".CameraxPhotoActivity" -->
+        <!-- android:name=".CameraxRecordActivity" -->
         <!-- android:exported="false" /> -->
+        <activity
+            android:name=".PhotoDetailActivity"
+            android:exported="false" /> <!-- <activity -->
         <activity
             android:name=".PhotoTakeActivity"
             android:exported="false" />
@@ -30,7 +33,7 @@
             android:name=".MediaRecorderActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraxPhotoActivity"
+            android:name=".CameraxRecordActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
