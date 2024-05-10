@@ -1,13 +1,17 @@
 package com.george.chapter14;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -77,6 +81,23 @@ public class CameraxRecordActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (PermissionUtil.checkGrant(grantResults)) {
+                    Log.d(TAG, "权限获取成功");
+                } else {
+                    Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+                    jumpToSettings();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * 处理录像动作
      */
@@ -120,5 +141,16 @@ public class CameraxRecordActivity extends AppCompatActivity {
         super.onDestroy();
         // 关闭相机
         cxv_preview.closeCamera();
+    }
+
+    /**
+     * 跳转到 => 应用的系统设置页面
+     */
+    private void jumpToSettings() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

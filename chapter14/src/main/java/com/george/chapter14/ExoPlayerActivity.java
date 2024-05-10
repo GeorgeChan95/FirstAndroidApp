@@ -2,16 +2,20 @@ package com.george.chapter14;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.george.chapter14.constant.UrlConstant;
 import com.george.chapter14.utils.PermissionUtil;
@@ -117,6 +121,23 @@ public class ExoPlayerActivity extends AppCompatActivity {
         mPlayer.release(); // 释放播放器资源
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (PermissionUtil.checkGrant(grantResults)) {
+                    Log.d(TAG, "权限获取成功");
+                } else {
+                    Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+                    jumpToSettings();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * 播放视频
      * @param uri 视频Uri，既可以是本地视频，也可以是网络视频
@@ -206,5 +227,16 @@ public class ExoPlayerActivity extends AppCompatActivity {
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {}
+    }
+
+    /**
+     * 跳转到 => 应用的系统设置页面
+     */
+    private void jumpToSettings() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
