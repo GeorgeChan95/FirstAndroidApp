@@ -7,7 +7,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- WiFi权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 以下是蓝牙连接需要的权限配置 -->
+    <!-- 蓝牙（Android12之前） -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- 蓝牙（Android12之后） -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" /> <!-- 如果Android6.0 蓝牙搜索不到设备，需要补充下面两个权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,13 +25,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApp">
 <!--        <activity-->
-<!--            android:name=".WifiScanActivity"-->
+<!--            android:name=".BluetoothPairActivity"-->
 <!--            android:exported="false" />-->
          <activity
-         android:name=".WifiInfoActivity"
+         android:name=".WifiScanActivity"
          android:exported="false" />
         <activity
-            android:name=".WifiScanActivity"
+            android:name=".WifiInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BluetoothPairActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
