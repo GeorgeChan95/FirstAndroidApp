@@ -3,8 +3,11 @@ package com.george.chapter17.util;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -97,5 +100,37 @@ public class BluetoothUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * 创建一个默认频道的监听
+     * @param adapter
+     * @return
+     */
+    public static BluetoothServerSocket listenServer(BluetoothAdapter adapter) {
+        BluetoothServerSocket serverSocket = null;
+        try {
+            Method listenMethod = adapter.getClass().getMethod("listenUsingRfcommOn", int.class);
+            serverSocket = (BluetoothServerSocket) listenMethod.invoke(adapter, 29);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return serverSocket;
+    }
+
+    /**
+     * 向对方设备发送信息
+     * @param socket
+     * @param message
+     */
+    public static void writeOutputStream(BluetoothSocket socket, String message) {
+        Log.d(TAG, "begin writeOutputStream message=" + message);
+        try {
+            OutputStream os = socket.getOutputStream(); // 获得输出流对象
+            os.write(message.getBytes()); // 往输出流写入字节形式的数据
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "end writeOutputStream");
     }
 }

@@ -13,6 +13,7 @@ import com.george.chapter17.entity.BlueDevice;
 import java.util.List;
 
 public class BlueListAdapter extends BaseAdapter {
+    public static int CONNECTED = 13;
     private static final String TAG = "GeorgeTag";
     private Context mContext;
     private List<BlueDevice> mBlueList;

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.george.chapter17">
-
     <!-- 室内WIFI定位需要以下权限 -->
     <!-- 定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -25,10 +24,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FirstAndroidApp">
-        <!-- <activity -->
-        <!-- android:name=".BluetoothPairActivity" -->
-        <!-- android:exported="false" /> -->
+        android:theme="@style/AppTheme">
+<!--        <activity-->
+<!--            android:name=".BluetoothTransActivity"-->
+<!--            android:exported="false" />-->
+         <activity
+         android:name=".BluetoothPairActivity"
+         android:exported="false" />
         <activity
             android:name=".WifiScanActivity"
             android:exported="false" />
@@ -36,7 +38,7 @@
             android:name=".WifiInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".BluetoothPairActivity"
+            android:name=".BluetoothTransActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,15 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-        <!-- 配置bugly组件的APP渠道号 -->
-<!--        <receiver android:name=".receiver.BluetoothActivityReceiver"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter android:priority="1000">-->
-<!--                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
     </application>
 
 </manifest>
