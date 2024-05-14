@@ -1,12 +1,9 @@
 package com.george.chapter17;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -17,14 +14,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +31,7 @@ import android.widget.Toast;
 
 import com.george.chapter17.adapter.BlueListAdapter;
 import com.george.chapter17.entity.BlueDevice;
+import com.george.chapter17.receiver.BluetoothActivityReceiver;
 import com.george.chapter17.util.BluetoothUtil;
 import com.george.chapter17.util.PermissionUtil;
 
@@ -70,6 +65,7 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
     private BluetoothAdapter bluetoothAdapter; // 蓝牙适配器对象
     private Handler mHandler = new Handler(Looper.myLooper()); // 声明一个处理器对象
 
+    BluetoothActivityReceiver receiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +83,9 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
         if (BluetoothUtil.getBlueToothStatus()) { // 蓝牙已打开
             ck_bluetooth.setChecked(true);
         }
+
+        // 创建蓝牙扫描广播接收器
+        receiver = new BluetoothActivityReceiver(this, tv_discovery);
 
         // 初始化蓝牙适配器
         initBluetooth();
@@ -152,8 +151,14 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
         discoveryFilter.addAction(BluetoothDevice.ACTION_FOUND); // 已发现远程设备
         discoveryFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED); // 本地蓝牙适配器已完成设备发现过程
         discoveryFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED); // 远程设备的绑定状态发生变化。例如，如果一个设备被绑定（配对）
+        discoveryFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);//蓝牙开始搜索
         // 注册蓝牙设备搜索的广播接收器
         registerReceiver(discoveryReceiver, discoveryFilter);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+        filter.setPriority(10000);
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -163,6 +168,7 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
         cancelDiscovery();
         // 注销蓝牙搜索广播接收器
         unregisterReceiver(discoveryReceiver);
+        unregisterReceiver(receiver);
     }
 
     /**
@@ -181,7 +187,7 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
     /**
      * 开始搜索周围的蓝牙设备
      */
-    private void beginDiscovery() {
+    public void beginDiscovery() {
         // 如果当前不是正在搜索，则开始新的搜索任务
         if (!bluetoothAdapter.isDiscovering() && BluetoothUtil.getBlueToothStatus()) {
             // 初始化蓝牙设备列表
@@ -234,6 +240,34 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
             }
         }
     };
+
+    class BluetoothConnectActivityReceiver extends BroadcastReceiver {
+        private static final String TAG = "GeorgeTag";
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.d(TAG, "discoveryReceiver.onReceive: " + action);
+            if (action.equals(BluetoothDevice.ACTION_FOUND)) { // 发现新的蓝牙设备
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Log.d(TAG, "name=" + device.getName() + ", state=" + device.getBondState());
+                refreshDevice(device, device.getBondState());
+            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) { // 搜索完毕
+                mHandler.removeCallbacks(mRefresh); // 需要持续搜索就要注释这行
+                tv_discovery.setText("蓝牙设备搜索完成");
+            } else if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) { // 配对状态变更
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (device.getBondState() == BluetoothDevice.BOND_BONDING) {
+                    tv_discovery.setText("正在配对" + device.getName());
+                } else if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+                    tv_discovery.setText("完成配对" + device.getName());
+                    mHandler.postDelayed(mRefresh, 50);
+                } else if (device.getBondState() == BluetoothDevice.BOND_NONE) {
+                    tv_discovery.setText("取消配对" + device.getName());
+                    refreshDevice(device, device.getBondState()); // 刷新蓝牙设备列表
+                }
+            }
+        }
+    }
 
     /**
      * 权限校验结果回调
@@ -362,7 +396,7 @@ public class BluetoothPairActivity extends AppCompatActivity implements Compound
      * @param device 操作的蓝牙设备对象
      * @param state 连接状态
      */
-    private void refreshDevice(BluetoothDevice device, int state) {
+    public void refreshDevice(BluetoothDevice device, int state) {
         int i;
         for (i = 0; i < mDeviceList.size(); i++) {
             BlueDevice item = mDeviceList.get(i);
