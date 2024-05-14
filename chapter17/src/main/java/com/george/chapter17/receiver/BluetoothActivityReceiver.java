@@ -58,28 +58,6 @@ public class BluetoothActivityReceiver extends BroadcastReceiver {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            // 从Intent中获取设备对象
-//            BluetoothDevice btDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-//            //判断是否是  北斗设备
-//            Log.i(TAG, "####### 北斗设备  #######");
-//            Bundle extras = intent.getExtras();
-//            Log.i(TAG, "-->" + extras.toString());
-//            Object device = extras.get("android.bluetooth.device.extra.DEVICE");
-//            Object pairkey = extras.get("android.bluetooth.device.extra.PAIRING_KEY");
-//            Log.i(TAG, "device-->" + String.valueOf(device));
-//            Log.i(TAG, "pairkey-->" + String.valueOf(pairkey));
-//
-//            try {
-////                BlutoothPariUtils.setPairingConfirmation(btDevice.getClass(), btDevice, true);
-//                Log.i("order...", "isOrderedBroadcast:" + isOrderedBroadcast() + ",isInitialStickyBroadcast:" + isInitialStickyBroadcast());
-//                abortBroadcast();//如果没有将广播终止，则会出现一个一闪而过的配对框。
-//                //3.调用setPin方法进行配对...
-//                boolean ret = BlutoothPariUtils.setPin(btDevice.getClass(), btDevice, String.valueOf(1234));
-//            } catch (Exception e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
         }
     }
 }
