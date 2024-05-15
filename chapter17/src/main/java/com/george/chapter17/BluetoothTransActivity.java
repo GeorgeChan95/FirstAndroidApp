@@ -70,12 +70,10 @@ public class BluetoothTransActivity extends AppCompatActivity implements Compoun
     private CheckBox ck_bluetooth; // 声明一个复选框对象
     private TextView tv_discovery; // 声明一个文本视图对象
     private ListView lv_bluetooth; // 声明一个用于展示蓝牙设备的列表视图对象
-    private Button btn_refresh; // 刷新按钮控件
     private BluetoothAdapter mBluetooth; // 声明一个蓝牙适配器对象
     private BlueListAdapter mListAdapter; // 声明一个蓝牙设备的列表适配器对象
     private List<BlueDevice> mDeviceList = new ArrayList<>(); // 蓝牙设备列表
     private List<String> mAddressList = new ArrayList<>(); // 蓝牙设备地址列表
-    private int mOpenCode = 1; // 是否允许扫描蓝牙设备的选择对话框返回结果代码
     private Map<String, Integer> mMapState = new HashMap<>(); // 蓝牙状态映射
     private Handler mHandler = new Handler(Looper.myLooper()); // 声明一个处理器对象
     private BluetoothSocket mBlueSocket; // 声明一个蓝牙客户端套接字对象
@@ -334,6 +332,7 @@ public class BluetoothTransActivity extends AppCompatActivity implements Compoun
             int state = mMapState.containsKey(device.getAddress()) ?
                     mMapState.get(device.getAddress()) : device.getBondState();
             mDeviceList.add(new BlueDevice(device.getName(), device.getAddress(), state));
+            mAddressList.add(device.getAddress());
         }
         if (mListAdapter == null) { // 首次打开页面，则创建一个新的蓝牙设备列表
             mListAdapter = new BlueListAdapter(this, mDeviceList);
