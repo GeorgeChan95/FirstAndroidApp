@@ -32,11 +32,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".BleAdvertiseActivity"-->
+<!--            android:name=".BleClientActivity"-->
 <!--            android:exported="false" />-->
-<!--         <activity-->
-<!--         android:name=".BleScanActivity"-->
-<!--         android:exported="false" />-->
+        <!-- <activity -->
+        <!-- android:name=".BleServerActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".BleAdvertiseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BleScanActivity"
+            android:exported="false" />
         <activity
             android:name=".BluetoothTransActivity"
             android:exported="false" />
@@ -50,7 +56,7 @@
             android:name=".WifiInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".BleScanActivity"
+            android:name=".BleClientActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
