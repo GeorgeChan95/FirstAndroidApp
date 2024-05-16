@@ -78,8 +78,11 @@ public class BleScanActivity extends AppCompatActivity implements CompoundButton
 
     // Android12需要的蓝牙权限
     public String[] PERMISSIONS_12 = new String[]{
-            Manifest.permission.BLUETOOTH_ADVERTISE,
-            Manifest.permission.BLUETOOTH_CONNECT
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_ADVERTISE
     };
 
     // Android6需要的蓝牙权限
@@ -315,6 +318,7 @@ public class BleScanActivity extends AppCompatActivity implements CompoundButton
                 mDeviceList.clear();
                 // 通知适配器刷新列表
                 mListAdapter.notifyDataSetChanged();
+                isScaning = false;
             }
         }
     }
@@ -361,9 +365,10 @@ public class BleScanActivity extends AppCompatActivity implements CompoundButton
         @Override
         public void run() {
             if (!isScaning && BluetoothUtil.getBlueToothStatus()) {
-                isScaning = true;
                 // 获取BLE设备扫描器
                 BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
+                if (scanner == null) return;
+                isScaning = true;
                 // 开始扫描BLE设备，并设置回调
                 scanner.startScan(mScanCallback);
                 tv_discovery.setText("正在搜索低功耗蓝牙设备");

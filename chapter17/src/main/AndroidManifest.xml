@@ -32,11 +32,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".BleScanActivity"-->
+<!--            android:name=".BleAdvertiseActivity"-->
 <!--            android:exported="false" />-->
-         <activity
-         android:name=".BluetoothTransActivity"
-         android:exported="false" />
+<!--         <activity-->
+<!--         android:name=".BleScanActivity"-->
+<!--         android:exported="false" />-->
+        <activity
+            android:name=".BluetoothTransActivity"
+            android:exported="false" />
         <activity
             android:name=".BluetoothPairActivity"
             android:exported="false" />
