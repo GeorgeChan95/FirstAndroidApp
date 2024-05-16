@@ -17,6 +17,12 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" /> <!-- 如果Android6.0 蓝牙搜索不到设备，需要补充下面两个权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" /> <!-- 仅在支持BLE（蓝牙4.0）的设备上运行 -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -26,11 +32,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 <!--        <activity-->
-<!--            android:name=".BluetoothTransActivity"-->
+<!--            android:name=".BleScanActivity"-->
 <!--            android:exported="false" />-->
          <activity
-         android:name=".BluetoothPairActivity"
+         android:name=".BluetoothTransActivity"
          android:exported="false" />
+        <activity
+            android:name=".BluetoothPairActivity"
+            android:exported="false" />
         <activity
             android:name=".WifiScanActivity"
             android:exported="false" />
@@ -38,7 +47,7 @@
             android:name=".WifiInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".BluetoothTransActivity"
+            android:name=".BleScanActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

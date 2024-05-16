@@ -61,6 +61,7 @@ public class BluetoothTransActivity extends AppCompatActivity implements Compoun
 
     // Android6需要的蓝牙权限
     public String[] PERMISSIONS_6 = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
 
@@ -417,21 +418,27 @@ public class BluetoothTransActivity extends AppCompatActivity implements Compoun
      * @param state
      */
     private void refreshDevice(BluetoothDevice device, int state) {
-        for (int i = 0; i < mDeviceList.size(); i++) {
-            BlueDevice item = mDeviceList.get(i);
-            if (item.address.equals(device.getAddress())) {
-                if (item.state != BlueListAdapter.CONNECTED) {
-                    item.state = state;
-                    mDeviceList.set(i, item);
-                    mMapState.put(item.address, state);
-                }
-            } else {
-                if (!mAddressList.contains(device.getAddress())) {
-                    mAddressList.add(device.getAddress());
-                    mDeviceList.add(new BlueDevice(device.getName(), device.getAddress(), state));
+        if (!mDeviceList.isEmpty()) {
+            for (int i = 0; i < mDeviceList.size(); i++) {
+                BlueDevice item = mDeviceList.get(i);
+                if (item.address.equals(device.getAddress())) {
+                    if (item.state != BlueListAdapter.CONNECTED) {
+                        item.state = state;
+                        mDeviceList.set(i, item);
+                        mMapState.put(item.address, state);
+                    }
+                } else {
+                    if (!mAddressList.contains(device.getAddress())) {
+                        mAddressList.add(device.getAddress());
+                        mDeviceList.add(new BlueDevice(device.getName(), device.getAddress(), state));
+                    }
                 }
             }
+        } else {
+            mAddressList.add(device.getAddress());
+            mDeviceList.add(new BlueDevice(device.getName(), device.getAddress(), state));
         }
+
         // 通知列表适配器刷新页面
         mListAdapter.notifyDataSetChanged();
     }
