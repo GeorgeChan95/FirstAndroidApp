@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">testXf</string>
+    <!-- 讯飞语音云官网申请的appid -->
+    <string name="app_id">38636ff9</string>
+</resources>
