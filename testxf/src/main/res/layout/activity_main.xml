@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试讯飞语音合成与语音唤醒"
@@ -34,7 +35,23 @@
             android:layout_height="wrap_content"
             android:text="语音合成"/>
 
+        <Button
+            android:id="@+id/btn_yyml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="语音命令"/>
 
+        <Button
+            android:id="@+id/btn_gxcd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新词典"/>
+
+        <Button
+            android:id="@+id/btn_gxcd2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新词典2"/>
 
         <Button
             android:id="@+id/btn_yyhx"
