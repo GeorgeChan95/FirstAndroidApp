@@ -31,7 +31,13 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.cloud.VoiceWakeuper;
+import com.iflytek.cloud.WakeuperListener;
+import com.iflytek.cloud.WakeuperResult;
 import com.iflytek.cloud.util.ResourceUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "GeorgeTag";
@@ -63,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mResultType = "json";
     private TextView tv_result;
     private boolean isUpdate = false;
+    // 语音唤醒对象
+    private VoiceWakeuper mIvw;
+    // 唤醒结果内容
+    private String resultString = "";
+    private String keep_alive = "1"; // 是否持续激活: 0-否 1-是
+    private String ivwNetMode = "0"; // 是否开启网络优化, 0-不开启 1-开启,允许上传优化数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 更新词典
         btn_gxcd2 = findViewById(R.id.btn_gxcd2);
         btn_gxcd2.setOnClickListener(this);
+
+        // 语音唤醒
+        findViewById(R.id.btn_yyhx).setOnClickListener(this);
     }
 
     @Override
@@ -164,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isUpdate = true;
         }
 
-        if (v.getId() == R.id.btn_gxcd2) { // 更新词典
+        if (v.getId() == R.id.btn_gxcd2) { // 更新词典2
             mAsr.setParameter(SpeechConstant.PARAMS, null);
             // 设置引擎类型
             mAsr.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
@@ -187,6 +202,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             isUpdate = true;
+        }
+
+        if (v.getId() == R.id.btn_yyhx) { // 语音唤醒
+
+            //非空判断，防止因空指针使程序崩溃
+            mIvw = VoiceWakeuper.getWakeuper();
+            if (mIvw != null) {
+                tv_result.setText(resultString);
+                // 清空参数
+                mIvw.setParameter(SpeechConstant.PARAMS, null);
+                // 唤醒门限值，根据资源携带的唤醒词个数按照“id:门限;id:门限”的格式传入
+                mIvw.setParameter(SpeechConstant.IVW_THRESHOLD, "0:" + 1450);
+                // 设置唤醒模式
+                mIvw.setParameter(SpeechConstant.IVW_SST, "wakeup");
+                // 设置持续进行唤醒
+                mIvw.setParameter(SpeechConstant.KEEP_ALIVE, keep_alive);
+                // 设置闭环优化网络模式
+                mIvw.setParameter(SpeechConstant.IVW_NET_MODE, ivwNetMode);
+                // 设置唤醒资源路径
+                mIvw.setParameter(SpeechConstant.IVW_RES_PATH, getWakeuperResource());
+                // 设置唤醒录音保存路径，保存最近一分钟的音频
+                mIvw.setParameter(SpeechConstant.IVW_AUDIO_PATH,
+                        getExternalFilesDir("msc").getAbsolutePath() + "/ivw.wav");
+                mIvw.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+                // 如有需要，设置 NOTIFY_RECORD_DATA 以实时通过 onEvent 返回录音音频流字节
+                //mIvw.setParameter( SpeechConstant.NOTIFY_RECORD_DATA, "1" );
+                // 启动唤醒
+                /*	mIvw.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");*/
+
+                mIvw.startListening(mWakeuperListener);
+            } else {
+                showTip("唤醒未初始化");
+            }
         }
 
     }
@@ -266,6 +314,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+     * 初始化语音唤醒对象
+     * @param context
+     */
+    public void initializeWakeuper(Context context) {
+        // 初始化唤醒对象
+        mIvw = VoiceWakeuper.createWakeuper(context, null);
+    }
+
+    /**
      * 校验应用权限并开始初始化SDK
      */
     private ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
@@ -273,6 +330,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (result) {
                     // 初始化讯飞语音SDK
                     initializeMsc(MainActivity.this);
+                    // 初始化语音唤醒对象
+                    initializeWakeuper(MainActivity.this);
                 }
             }
     );
@@ -355,6 +414,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //识别通用资源
         tempBuffer.append(ResourceUtil.generateResourcePath(this, ResourceUtil.RESOURCE_TYPE.assets, "asr/common.jet"));
         return tempBuffer.toString();
+    }
+
+    /**
+     * 获取语音唤醒资源文件
+     * @return
+     */
+    private String getWakeuperResource() {
+        final String resPath = ResourceUtil.generateResourcePath(MainActivity.this, ResourceUtil.RESOURCE_TYPE.assets, "ivw/" + getString(R.string.app_id) + ".jet");
+        Log.d(TAG, "resPath: " + resPath);
+        return resPath;
     }
 
     /**
@@ -520,6 +589,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG, "词典更新失败, 错误码:" + error.getErrorCode());
                 showTip("词典更新失败,错误码：" + error.getErrorCode());
             }
+        }
+    };
+
+    /**
+     * 唤醒监听器
+     */
+    private WakeuperListener mWakeuperListener = new WakeuperListener() {
+
+        @Override
+        public void onResult(WakeuperResult result) {
+            Log.d(TAG, "onResult");
+            try {
+                String text = result.getResultString();
+                JSONObject object;
+                object = new JSONObject(text);
+                StringBuffer buffer = new StringBuffer();
+                buffer.append("【RAW】 " + text);
+                buffer.append("\n");
+                buffer.append("【操作类型】" + object.optString("sst"));
+                buffer.append("\n");
+                buffer.append("【唤醒词id】" + object.optString("id"));
+                buffer.append("\n");
+                buffer.append("【得分】" + object.optString("score"));
+                buffer.append("\n");
+                buffer.append("【前端点】" + object.optString("bos"));
+                buffer.append("\n");
+                buffer.append("【尾端点】" + object.optString("eos"));
+                resultString = buffer.toString();
+            } catch (JSONException e) {
+                resultString = "结果解析出错";
+                e.printStackTrace();
+            }
+            tv_result.setText(resultString);
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            showTip(error.getPlainDescription(true));
+        }
+
+        @Override
+        public void onBeginOfSpeech() {
+        }
+
+        @Override
+        public void onEvent(int eventType, int isLast, int arg2, Bundle obj) {
+            switch (eventType) {
+                // EVENT_RECORD_DATA 事件仅在 NOTIFY_RECORD_DATA 参数值为 真 时返回
+                case SpeechEvent.EVENT_RECORD_DATA:
+                    final byte[] audio = obj.getByteArray(SpeechEvent.KEY_EVENT_RECORD_DATA);
+                    Log.i(TAG, "ivw audio length: " + audio.length);
+                    break;
+            }
+        }
+
+        @Override
+        public void onVolumeChanged(int volume) {
+
         }
     };
 
