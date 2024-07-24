@@ -39,6 +39,9 @@ import com.iflytek.cloud.util.ResourceUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "GeorgeTag";
     private static boolean mscInitialize = false; // 是否初始化过
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toast mToast;
 
     private SpeechSynthesizer mTts; // 语音合成对象
+    private SpeechRecognizer mIat; // 语音听写对象
     private Button btn_yyhc; // 语音合成
     private Button btn_init; // SDK初始化
     private Button btn_yyml; // 语音命令
@@ -76,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String keep_alive = "1"; // 是否持续激活: 0-否 1-是
     private String ivwNetMode = "0"; // 是否开启网络优化, 0-不开启 1-开启,允许上传优化数据
 
+    // 用HashMap存储听写结果
+    private HashMap<String, String> mIatResults = new LinkedHashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 语音唤醒
         findViewById(R.id.btn_yyhx).setOnClickListener(this);
+
+        // 语音听写
+        findViewById(R.id.btn_yytx).setOnClickListener(this);
     }
 
     @Override
@@ -125,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (v.getId() == R.id.btn_yyml) { // 语音命令
+            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
             // 本地语法构建路径
             grmPath = getExternalFilesDir("msc").getAbsolutePath() + "/test";
             // 初始化识别对象
@@ -205,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (v.getId() == R.id.btn_yyhx) { // 语音唤醒
+            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
 
             //非空判断，防止因空指针使程序崩溃
             mIvw = VoiceWakeuper.getWakeuper();
@@ -237,6 +251,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if (v.getId() == R.id.btn_yytx) { // 语音听写
+            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
+            // 初始化识别无UI识别对象
+            // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
+            mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
+            tv_result.setText(null);
+            mEngineType = SpeechConstant.TYPE_CLOUD; // 在线引擎
+            // 设置参数
+            setIatParam();
+
+            // 不显示听写对话框
+            ret = mIat.startListening(mIatRecognizerListener);
+            if (ret != ErrorCode.SUCCESS) {
+                showTip("听写失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+            } else {
+                showTip("请开始说话...");
+            }
+        }
+
+    }
+
+    /**
+     * 设置语音听写参数
+     */
+    private void setIatParam() {
+        String resultType = "json"; // 返回结果类型: json
+        // 清空参数
+        mIat.setParameter(SpeechConstant.PARAMS, null);
+        // 设置听写引擎
+        mIat.setParameter(SpeechConstant.ENGINE_TYPE, mEngineType);
+        // 设置返回结果格式
+        mIat.setParameter(SpeechConstant.RESULT_TYPE, resultType);
+        // 设置语言
+        mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        // 设置语言区域
+        // 当前仅在LANGUAGE为简体中文时，支持方言选择，其他语言区域时，可把此参数值设为mandarin。默认值：mandarin，其他方言参数可在控制台方言一栏查看。
+        mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
+        // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
+        mIat.setParameter(SpeechConstant.VAD_BOS, "4000");
+        // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
+        mIat.setParameter(SpeechConstant.VAD_EOS, "3000");
+        // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
+        mIat.setParameter(SpeechConstant.ASR_PTT, "1");
+        // 设置音频保存路径，保存音频格式支持pcm、wav.
+        mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH,
+                getExternalFilesDir("msc").getAbsolutePath() + "/iat.wav");
     }
 
     /**
@@ -649,6 +711,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     };
+
+
+    /**
+     * 听写监听器。
+     */
+    private RecognizerListener mIatRecognizerListener = new RecognizerListener() {
+
+        @Override
+        public void onBeginOfSpeech() {
+            // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
+            showTip("开始说话");
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            // Tips：
+            // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
+            Log.d(TAG, "onError " + error.getPlainDescription(true));
+            showTip(error.getPlainDescription(true));
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
+            showTip("结束说话");
+        }
+
+        @Override
+        public void onResult(RecognizerResult results, boolean isLast) {
+            Log.d(TAG, results.getResultString());
+            if (isLast) {
+                Log.d(TAG, "onResult 结束");
+            }
+            printResult(results);
+        }
+
+        @Override
+        public void onVolumeChanged(int volume, byte[] data) {
+            showTip("当前正在说话，音量大小 = " + volume + " 返回音频数据 = " + data.length);
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+            // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            // 若使用本地能力，会话id为null
+            //	if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+            //		String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+            //		Log.d(TAG, "session id =" + sid);
+            //	}
+        }
+    };
+
+    /**
+     * 显示听写结果
+     */
+    private void printResult(RecognizerResult results) {
+        String text = JsonParser.parseIatResult(results.getResultString());
+        String sn = null;
+        // 读取json结果中的sn字段
+        try {
+            JSONObject resultJson = new JSONObject(results.getResultString());
+            sn = resultJson.optString("sn");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mIatResults.put(sn, text);
+
+        StringBuffer resultBuffer = new StringBuffer();
+        for (String key : mIatResults.keySet()) {
+            resultBuffer.append(mIatResults.get(key));
+        }
+        tv_result.setText(resultBuffer.toString());
+    }
 
     private void showTip(final String str) {
         runOnUiThread(() -> {
