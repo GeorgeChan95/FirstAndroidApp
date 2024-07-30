@@ -5,7 +5,8 @@
 !slot <callPhone>;
 !slot <callTo>;
 !start <callStart>;
-<callStart>:[<callPre>][<callTo>]<contact><callPhone>|[<callPre>]<callPhone>[<callTo>]<contact>;
+//#<callStart>:[<callPre>][<callTo>]<contact><callPhone>|[<callPre>]<callPhone>[<callTo>]<contact>;
+<callStart>:(快速拍照|快速呼叫|打开手电筒|关闭手电筒|打开激光灯|关闭激光灯|查看电量|音量加|音量减|电量查询|开启录像|关闭录像|开始下一步|完成当前步骤|结束作业|作业进度|确认|取消|绑定人员);
 <contact>:张海洋;
 <callPre>:我要|我想|我想要;
 <callPhone>:打电话;

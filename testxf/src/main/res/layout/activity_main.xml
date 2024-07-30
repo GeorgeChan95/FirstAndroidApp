@@ -59,6 +59,12 @@
             android:layout_height="wrap_content"
             android:text="语音唤醒"/>
 
+        <Button
+            android:id="@+id/btn_gbhx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关闭语音唤醒"/>
+
 
         <Button
             android:id="@+id/btn_yytx"

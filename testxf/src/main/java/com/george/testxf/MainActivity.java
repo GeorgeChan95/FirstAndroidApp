@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<>();
 
+    private Integer qStatus = 0; // 问题状态: 0-默认  1-机器人询问确认  2-等待语音输入文本
+    private Integer operate = 0; // 操作类型: 0-默认  1-切换作业步骤 2-绑定工号
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 语音唤醒
         findViewById(R.id.btn_yyhx).setOnClickListener(this);
+        // 关闭语音唤醒
+        findViewById(R.id.btn_gbhx).setOnClickListener(this);
 
         // 语音听写
         findViewById(R.id.btn_yytx).setOnClickListener(this);
@@ -124,46 +129,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
         }
         if (v.getId() == R.id.btn_yyhc) { // 语音合成
-            // 初始化合成对象
-            if (mTts == null) {
-                mTts = SpeechSynthesizer.createSynthesizer(this, mTtsInitListener);
-            } else {
-                int code2 = mTts.startSpeaking("自定义语音合成OK,等待项目继承", mTtsListener);
-                if (code2 != ErrorCode.SUCCESS) {
-                    showTip("语音合成失败,错误码: " + code2 + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-                }
-            }
+            playTxt("语音合成已开启");
         }
         if (v.getId() == R.id.btn_yyml) { // 语音命令
-            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
-            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
-            // 本地语法构建路径
-            grmPath = getExternalFilesDir("msc").getAbsolutePath() + "/test";
-            // 初始化识别对象
-            mAsr = SpeechRecognizer.createRecognizer(this, mInitListener);
-            if (mAsr == null) {
-                Log.e(TAG, "masr is null");
-            }
-
-            mLocalGrammar = FucUtil.readFile(this, "call.bnf", "utf-8");
-            mEngineType = SpeechConstant.TYPE_LOCAL;
-
-            if (!isUpdate) { // 如果没有构建过语法,则先构建语法
-                // 构建本地语法
-                setLocalGrammar();
-            }
-
-            // 设置语音命令参数
-            if (!setAsrParam()) {
-                showTip("请先构建语法。");
-                return;
-            }
-
-            // 开始语音指令监听
-            ret = mAsr.startListening(mRecognizerListener);
-            if (ret != ErrorCode.SUCCESS) {
-                showTip("识别失败,错误码: " + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-            }
+            // 开启语音命令
+            startAsr();
         }
 
         if (v.getId() == R.id.btn_gxcd) { // 更新词典
@@ -217,60 +187,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (v.getId() == R.id.btn_yyhx) { // 语音唤醒
-            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
-            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
+            // 开始语音唤醒
+            startWakeuper();
+        }
 
-            //非空判断，防止因空指针使程序崩溃
-            mIvw = VoiceWakeuper.getWakeuper();
-            if (mIvw != null) {
-                tv_result.setText(resultString);
-                // 清空参数
-                mIvw.setParameter(SpeechConstant.PARAMS, null);
-                // 唤醒门限值，根据资源携带的唤醒词个数按照“id:门限;id:门限”的格式传入
-                mIvw.setParameter(SpeechConstant.IVW_THRESHOLD, "0:" + 1450);
-                // 设置唤醒模式
-                mIvw.setParameter(SpeechConstant.IVW_SST, "wakeup");
-                // 设置持续进行唤醒
-                mIvw.setParameter(SpeechConstant.KEEP_ALIVE, keep_alive);
-                // 设置闭环优化网络模式
-                mIvw.setParameter(SpeechConstant.IVW_NET_MODE, ivwNetMode);
-                // 设置唤醒资源路径
-                mIvw.setParameter(SpeechConstant.IVW_RES_PATH, getWakeuperResource());
-                // 设置唤醒录音保存路径，保存最近一分钟的音频
-                mIvw.setParameter(SpeechConstant.IVW_AUDIO_PATH,
-                        getExternalFilesDir("msc").getAbsolutePath() + "/ivw.wav");
-                mIvw.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-                // 如有需要，设置 NOTIFY_RECORD_DATA 以实时通过 onEvent 返回录音音频流字节
-                //mIvw.setParameter( SpeechConstant.NOTIFY_RECORD_DATA, "1" );
-                // 启动唤醒
-                /*	mIvw.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");*/
-
-                mIvw.startListening(mWakeuperListener);
-            } else {
-                showTip("唤醒未初始化");
-            }
+        if (v.getId() == R.id.btn_gbhx) { // 关闭语音唤醒
+            closeWakeuper();
         }
 
         if (v.getId() == R.id.btn_yytx) { // 语音听写
-            // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
-            mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
-            // 初始化识别无UI识别对象
-            // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
-            mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
-            tv_result.setText(null);
-            mEngineType = SpeechConstant.TYPE_CLOUD; // 在线引擎
-            // 设置参数
-            setIatParam();
-
-            // 不显示听写对话框
-            ret = mIat.startListening(mIatRecognizerListener);
-            if (ret != ErrorCode.SUCCESS) {
-                showTip("听写失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-            } else {
-                showTip("请开始说话...");
-            }
+            // 开启语音听写
+            startLat();
         }
 
+    }
+
+    /**
+     * 开启语音听写
+     */
+    private void startLat() {
+        // 关闭语音唤醒
+        closeWakeuper();
+
+        // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+        mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
+        // 初始化识别无UI识别对象
+        // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
+        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
+        tv_result.setText(null);
+        mEngineType = SpeechConstant.TYPE_CLOUD; // 在线引擎
+        // 设置参数
+        setIatParam();
+
+        // 不显示听写对话框
+        ret = mIat.startListening(mIatRecognizerListener);
+        if (ret != ErrorCode.SUCCESS) {
+            showTip("听写失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+        } else {
+            showTip("请开始说话...");
+        }
     }
 
     /**
@@ -294,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
         mIat.setParameter(SpeechConstant.VAD_EOS, "3000");
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
-        mIat.setParameter(SpeechConstant.ASR_PTT, "1");
+        mIat.setParameter(SpeechConstant.ASR_PTT, "0");
         // 设置音频保存路径，保存音频格式支持pcm、wav.
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH,
@@ -384,6 +339,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mIvw = VoiceWakeuper.createWakeuper(context, null);
     }
 
+
+    /**
+     * 开始语音唤醒
+     */
+    public void startWakeuper() {
+        // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+        mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
+
+        //非空判断，防止因空指针使程序崩溃
+        mIvw = VoiceWakeuper.getWakeuper();
+        if (mIvw != null) {
+            tv_result.setText(resultString);
+            // 清空参数
+            mIvw.setParameter(SpeechConstant.PARAMS, null);
+            // 唤醒门限值，根据资源携带的唤醒词个数按照“id:门限;id:门限”的格式传入
+            mIvw.setParameter(SpeechConstant.IVW_THRESHOLD, "0:" + 1450);
+            // 设置唤醒模式
+            mIvw.setParameter(SpeechConstant.IVW_SST, "wakeup");
+            // 设置持续进行唤醒
+            mIvw.setParameter(SpeechConstant.KEEP_ALIVE, keep_alive);
+            // 设置闭环优化网络模式
+            mIvw.setParameter(SpeechConstant.IVW_NET_MODE, ivwNetMode);
+            // 设置唤醒资源路径
+            mIvw.setParameter(SpeechConstant.IVW_RES_PATH, getWakeuperResource());
+            // 设置唤醒录音保存路径，保存最近一分钟的音频
+            mIvw.setParameter(SpeechConstant.IVW_AUDIO_PATH,
+                    getExternalFilesDir("msc").getAbsolutePath() + "/ivw.wav");
+            mIvw.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+            // 如有需要，设置 NOTIFY_RECORD_DATA 以实时通过 onEvent 返回录音音频流字节
+            //mIvw.setParameter( SpeechConstant.NOTIFY_RECORD_DATA, "1" );
+            // 启动唤醒
+            /*	mIvw.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");*/
+
+            mIvw.startListening(mWakeuperListener);
+        } else {
+            showTip("唤醒未初始化");
+        }
+    }
+
+    /**
+     * 关闭语音唤醒
+     */
+    public void closeWakeuper() {
+        // 销毁唤醒对象
+        mIvw = VoiceWakeuper.getWakeuper();
+        if (mIvw != null) {
+            mIvw.destroy();
+        }
+    }
+
     /**
      * 校验应用权限并开始初始化SDK
      */
@@ -414,10 +419,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // 设置参数
                 setParam();
-                int code2 = mTts.startSpeaking("安全头盔佩戴异常,请及时处理", mTtsListener);
-                if (code2 != ErrorCode.SUCCESS) {
-                    showTip("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-                }
             }
         }
     };
@@ -530,6 +531,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 showTip(error.getPlainDescription(true));
             }
+            if (qStatus == 0 || qStatus == 1) {
+                // 开启语音命令
+                startAsr();
+            } else if (qStatus == 2) {
+                // 开启听写
+                startLat();
+            }
         }
 
         @Override
@@ -603,7 +611,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 tv_result.setText(text);
-
+                if (text.contains("绑定人员")) {
+                    playTxt("请输入要绑定的人员工号");
+                    qStatus = 2;
+                    operate = 2;
+                } else if (qStatus == 0 && text.contains("开始下一步")) {
+                    qStatus = 1;
+                    operate = 1;
+                    playTxt("是否确认执行命令: 开始下一步");
+                } else if (qStatus == 1 && text.contains("确认")) {
+                    if (operate == 1) {
+                        playTxt("开始执行命令: 开始下一步");
+                    } else if (operate == 2) {
+                        playTxt("开始执行命令: 绑定人员");
+                    }
+                    qStatus = 0;
+                    operate = 0;
+                } else if (qStatus == 1 && text.contains("取消")) {
+                    playTxt("好的,已为您取消操作");
+                } else if (text.contains("取消")) {
+                    playTxt("我不明白你在说什么,请重新输入指令");
+                } else {
+                    playTxt("正在执行命令:" + text);
+                    // 开启语音唤醒
+                    startWakeuper();
+                }
             } else {
                 Log.d(TAG, "recognizer result : null");
             }
@@ -613,6 +645,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
             showTip("结束说话");
+            // 开启语音唤醒
+            startWakeuper();
         }
 
         @Override
@@ -624,6 +658,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onError(SpeechError error) {
             showTip("onError Code：" + error.getErrorCode());
+            // 开启语音唤醒
+            startWakeuper();
+            qStatus = 0;
         }
 
         @Override
@@ -684,6 +721,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             tv_result.setText(resultString);
+
+            // 播放语音
+            playTxt("我在");
+
         }
 
         @Override
@@ -731,12 +772,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "onError " + error.getPlainDescription(true));
             showTip(error.getPlainDescription(true));
 
+            playTxt("语音输入异常");
+            qStatus = 0;
+            operate = 0;
+
+            // 开始语音唤醒
+            startWakeuper();
         }
 
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
             showTip("结束说话");
+
+            // 开始语音唤醒
+//            startWakeuper();
         }
 
         @Override
@@ -745,7 +795,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (isLast) {
                 Log.d(TAG, "onResult 结束");
             }
-            printResult(results);
+//            printResult(results);
+
+            String result = getResult(results);
+            String workNo = null;
+            try {
+                Integer.parseInt(result);
+                workNo = result;
+            } catch (Exception e) {
+                Log.d(TAG, "语音输入工号操作异常");
+            }
+            if (qStatus == 2 && workNo == null) {
+                playTxt("语音输入异常");
+                qStatus = 0;
+            } else if (qStatus == 2 && workNo != null) {
+                playTxt("是否确认绑定工号:" + workNo + ", 人员姓名: 赵刚");
+                qStatus = 1;
+            }
         }
 
         @Override
@@ -787,6 +853,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_result.setText(resultBuffer.toString());
     }
 
+    /**
+     * 返回语音输入的内容
+     * @param results
+     * @return
+     */
+    public String getResult(RecognizerResult results) {
+        String text = JsonParser.parseIatResult(results.getResultString());
+        String sn = null;
+        // 读取json结果中的sn字段
+        try {
+            JSONObject resultJson = new JSONObject(results.getResultString());
+            sn = resultJson.optString("sn");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mIatResults.put(sn, text);
+
+        StringBuffer resultBuffer = new StringBuffer();
+        for (String key : mIatResults.keySet()) {
+            resultBuffer.append(mIatResults.get(key));
+        }
+        return resultBuffer.toString();
+    }
+
     private void showTip(final String str) {
         runOnUiThread(() -> {
             if (mToast != null) {
@@ -795,5 +886,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mToast = Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT);
             mToast.show();
         });
+    }
+
+
+    /**
+     * 播放文本,转语音
+     * @param content
+     */
+    public void playTxt(String content) {
+        // 初始化合成对象
+        if (mTts == null) {
+            mTts = SpeechSynthesizer.createSynthesizer(this, mTtsInitListener);
+        }
+        if (mTts != null) {
+            int code2 = mTts.startSpeaking(content, mTtsListener);
+            if (code2 != ErrorCode.SUCCESS) {
+                showTip("语音合成失败,错误码: " + code2 + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+            }
+        }
+    }
+
+
+    /**
+     * 开启语音命令
+     */
+    public void startAsr() {
+        // 关闭语音唤醒
+        closeWakeuper();
+
+        // 校验是否有播放器的权限,有的话初始化讯飞语音SDK
+        mPermissionResult.launch(Manifest.permission.RECORD_AUDIO);
+        // 本地语法构建路径
+        grmPath = getExternalFilesDir("msc").getAbsolutePath() + "/test";
+        // 初始化识别对象
+        mAsr = SpeechRecognizer.createRecognizer(this, mInitListener);
+        if (mAsr == null) {
+            Log.e(TAG, "masr is null");
+        }
+
+        mLocalGrammar = FucUtil.readFile(this, "call.bnf", "utf-8");
+        mEngineType = SpeechConstant.TYPE_LOCAL;
+
+        if (!isUpdate) { // 如果没有构建过语法,则先构建语法
+            // 构建本地语法
+            setLocalGrammar();
+        }
+
+        // 设置语音命令参数
+        if (!setAsrParam()) {
+            showTip("请先构建语法。");
+            return;
+        }
+
+        // 开始语音指令监听
+        ret = mAsr.startListening(mRecognizerListener);
+        if (ret != ErrorCode.SUCCESS) {
+            showTip("识别失败,错误码: " + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+        }
+    }
+
+    /**
+     * 停止语音命令
+     */
+    public void stopAsr() {
+        if (null != mAsr) {
+            // 退出时释放连接
+            mAsr.cancel();
+            mAsr.destroy();
+        }
     }
 }
